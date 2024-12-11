@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: prize
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/prize_local/

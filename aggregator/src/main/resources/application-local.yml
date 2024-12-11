@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: aggregator
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/aggregator_local/

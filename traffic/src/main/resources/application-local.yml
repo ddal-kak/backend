@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: traffic
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/traffic_local/

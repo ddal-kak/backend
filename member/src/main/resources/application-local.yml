@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: member
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/member_local/

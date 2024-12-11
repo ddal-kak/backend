@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: aggregator
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/aggregator_prod/
