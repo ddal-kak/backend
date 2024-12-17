@@ -7,4 +7,5 @@ spring:
     import: aws-parameterstore:/config/prize_local/
 
 
+
 test: ${test}

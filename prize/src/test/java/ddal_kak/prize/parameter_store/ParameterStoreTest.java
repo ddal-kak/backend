@@ -1,4 +1,4 @@
-package ddal_kak.prize;
+package ddal_kak.prize.parameter_store;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
