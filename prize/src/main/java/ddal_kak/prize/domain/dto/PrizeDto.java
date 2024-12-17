@@ -24,6 +24,6 @@ public class PrizeDto {
     @Positive@NotNull
     private  Long probabilityRange;
 
-    @Positive
+    @Positive@NotNull
     private Long randomNumber;
 }
