@@ -5,3 +5,16 @@ spring:
     activate:
       on-profile: local
     import: aws-parameterstore:/config/prize_local/
+
+  datasource:
+    url: ${db-url} # JDBC URL
+    username: root               # 데이터베이스 사용자 이름
+    password: ${db-pw}              # 데이터베이스 비밀번호
+    driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL 드라이버 클래스
+
+  jpa:
+    hibernate:
+      ddl-auto: create  # 데이터베이스 테이블 자동 생성 전략 (옵션: none, validate, update, create-drop)
+    show-sql: true       # Hibernate SQL 출력 여부
+    properties:
+        hibernate.format_sql: true  # SQL 출력 포맷팅
