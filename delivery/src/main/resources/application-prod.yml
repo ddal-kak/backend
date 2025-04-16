@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: delivery
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/delivery_prod/

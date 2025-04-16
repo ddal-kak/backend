@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: draw
+  profiles:
+    active: local

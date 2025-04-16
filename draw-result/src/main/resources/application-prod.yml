@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: draw-result
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/draw-result_prod/

@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: member
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/member_prod/

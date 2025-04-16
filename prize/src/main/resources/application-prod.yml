@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: prize
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/prize_prod/

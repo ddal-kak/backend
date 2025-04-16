@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: draw
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/draw_local/

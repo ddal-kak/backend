@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: draw-result-coordinator
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/draw-result-coordinator_local/
