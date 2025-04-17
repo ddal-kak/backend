@@ -7,6 +7,8 @@ import ddalkak.prize.domain.dto.PrizeResponseDto;
 import ddalkak.prize.service.PrizeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -52,27 +54,27 @@ class PrizeControllerTest {
         verify(prizeService, times(1)).save(any(PrizeRequestDto.class));
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {
+        "'test RequestDto', -15, -110, -5", //음수
+        "'', 10000, 100, 1", //이름 공백
+        "'test RequestDto', 0, 0, 0", // 0일때
+            "NULL,100,10000,NULL"//null 일때
+
+    },
+            nullValues = "NULL"
+    )
     @DisplayName("잘못된 입력값이면 InvalidInputException 발생")
-    public void save_invalidInput_test() throws Exception {
+    public void save_invalidInput_test(String name, Integer price, Integer quantity, Long range) throws Exception {
         // given
-        PrizeRequestDto mockRequestDto = new PrizeRequestDto("test RequestDto", -15, -110, -5L);
+        PrizeRequestDto mockRequestDto = new PrizeRequestDto(name, price, quantity, range);
 
-        PrizeResponseDto mockResponseDto = new PrizeResponseDto(1L, "test RequestDto", -15, -110, -5L, 0L);
-
-
-        // when & then //예외 발생 검증
-        mockMvc.perform(post("/prize/") // 컨트롤러의 매핑 URL
+        // when & then
+        mockMvc.perform(post("/prize/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(mockRequestDto)))
-                        .andDo(print()) // 요청과 응답을 출력
-                        .andExpect(jsonPath("$.message").value(ErrorCode.INVALID_INPUT_VALUE.getMessage()))
-                        .andExpect(status().isBadRequest()); // 응답 상태 코드 검증
-
-
-
-
+                .andDo(print())
+                .andExpect(jsonPath("$.message").value(ErrorCode.INVALID_INPUT_VALUE.getMessage()))
+                .andExpect(status().isBadRequest());
     }
-
-
 }
