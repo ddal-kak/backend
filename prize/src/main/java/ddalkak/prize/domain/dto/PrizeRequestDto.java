@@ -10,7 +10,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 public record PrizeRequestDto (
 
-        @NotNull@NotBlank
+        @NotBlank
         String name,
         @PositiveOrZero@NotNull
         Integer quantity,

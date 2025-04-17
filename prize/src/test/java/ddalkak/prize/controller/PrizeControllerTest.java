@@ -57,7 +57,7 @@ class PrizeControllerTest {
     @ParameterizedTest
     @CsvSource(value = {
         "'test RequestDto', -15, -110, -5", //음수
-        "'', 10000, 100, 1", //이름 공백
+        "' ', 10000, 100, 1", //이름 공백
         "'test RequestDto', 0, 0, 0", // 0일때
             "NULL,100,10000,NULL"//null 일때
 

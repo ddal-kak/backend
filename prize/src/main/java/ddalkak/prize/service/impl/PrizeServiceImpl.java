@@ -3,6 +3,7 @@ package ddalkak.prize.service.impl;
 import ddalkak.prize.domain.dto.PrizeRequestDto;
 import ddalkak.prize.domain.entity.Prize;
 import ddalkak.prize.repository.PrizeJpaRepository;
+import ddalkak.prize.repository.PrizeRepository;
 import ddalkak.prize.service.PrizeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import java.security.SecureRandom;
 @RequiredArgsConstructor
 public class PrizeServiceImpl implements PrizeService {
     @Autowired
-    private final PrizeJpaRepository prizeRepository;
+    private final PrizeRepository prizeRepository;
 
     @Override
     @Transactional
