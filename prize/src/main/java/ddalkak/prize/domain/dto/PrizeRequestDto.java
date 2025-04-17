@@ -1,6 +1,7 @@
 package ddalkak.prize.domain.dto;
 
-import ddalkak.prize.domain.entity.Prize;
+
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -9,7 +10,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 public record PrizeRequestDto (
 
-        @NotNull
+        @NotNull@NotBlank
         String name,
         @PositiveOrZero@NotNull
         Integer quantity,
@@ -18,14 +19,4 @@ public record PrizeRequestDto (
         @Positive@NotNull
         Long probabilityRange
 
-){
-        public Prize toEntity(Long randomNumber) {
-                return new Prize(
-                        this.name,
-                        this.quantity,
-                        this.price,
-                        this.probabilityRange,
-                        randomNumber
-                );
-        }
-}
+){ }
