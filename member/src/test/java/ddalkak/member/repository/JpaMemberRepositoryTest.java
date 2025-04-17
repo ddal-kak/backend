@@ -2,6 +2,8 @@ package ddalkak.member.repository;
 
 import ddalkak.member.domain.Member;
 import ddalkak.member.dto.request.SignUpRequest;
+import ddalkak.member.repository.member.DataJpaMemberRepository;
+import ddalkak.member.repository.member.JpaMemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

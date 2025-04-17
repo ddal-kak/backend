@@ -4,7 +4,7 @@ import ddalkak.member.domain.Member;
 import ddalkak.member.dto.request.SignUpRequest;
 import ddalkak.member.common.exception.DuplicatedEmailException;
 import ddalkak.member.common.exception.errorcode.ErrorCode;
-import ddalkak.member.repository.MemberRepository;
+import ddalkak.member.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
