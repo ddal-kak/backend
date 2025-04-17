@@ -11,14 +11,13 @@ import java.util.List;
 @Entity
 @Getter
 public class Member {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
     @Column(unique = true)
     private String email;
     private String password;
     private String name;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private List<MemberType> roles = new ArrayList<>();
