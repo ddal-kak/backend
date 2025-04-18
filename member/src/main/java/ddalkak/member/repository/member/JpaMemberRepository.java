@@ -1,4 +1,4 @@
-package ddalkak.member.repository;
+package ddalkak.member.repository.member;
 
 import ddalkak.member.domain.Member;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,7 @@ package ddalkak.member.service;
 import ddalkak.member.domain.Member;
 import ddalkak.member.dto.request.SignUpRequest;
 import ddalkak.member.common.exception.DuplicatedEmailException;
-import ddalkak.member.repository.MemberRepository;
+import ddalkak.member.repository.member.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
