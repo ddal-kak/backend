@@ -1,15 +1,13 @@
 package ddalkak.member;
 
 import com.google.gson.Gson;
-import ddalkak.member.domain.Member;
+import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.LoginRequest;
 import ddalkak.member.dto.request.SignUpRequest;
 import ddalkak.member.repository.refreshtoken.RefreshTokenRepository;
 import ddalkak.member.service.MemberService;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

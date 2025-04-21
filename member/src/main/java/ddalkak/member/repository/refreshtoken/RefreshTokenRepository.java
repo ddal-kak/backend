@@ -1,6 +1,6 @@
 package ddalkak.member.repository.refreshtoken;
 
-import ddalkak.member.domain.RefreshToken;
+import ddalkak.member.domain.entity.RefreshToken;
 
 import java.util.Optional;
 

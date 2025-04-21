@@ -1,4 +1,4 @@
-package ddalkak.member.domain;
+package ddalkak.member.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;

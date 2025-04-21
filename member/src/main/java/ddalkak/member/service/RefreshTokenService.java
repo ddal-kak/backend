@@ -1,7 +1,7 @@
 package ddalkak.member.service;
 
-import ddalkak.member.domain.Member;
-import ddalkak.member.domain.RefreshToken;
+import ddalkak.member.domain.entity.Member;
+import ddalkak.member.domain.entity.RefreshToken;
 import ddalkak.member.repository.refreshtoken.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

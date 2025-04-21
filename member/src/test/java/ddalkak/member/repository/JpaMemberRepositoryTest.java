@@ -1,6 +1,6 @@
 package ddalkak.member.repository;
 
-import ddalkak.member.domain.Member;
+import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.SignUpRequest;
 import ddalkak.member.repository.member.DataJpaMemberRepository;
 import ddalkak.member.repository.member.JpaMemberRepository;

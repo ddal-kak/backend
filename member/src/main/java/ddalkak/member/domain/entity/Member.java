@@ -1,5 +1,6 @@
-package ddalkak.member.domain;
+package ddalkak.member.domain.entity;
 
+import ddalkak.member.domain.MemberType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
