@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 
 @Entity
-public class RefreshToken {
+public class RefreshToken extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tokenId;
     @OneToOne
