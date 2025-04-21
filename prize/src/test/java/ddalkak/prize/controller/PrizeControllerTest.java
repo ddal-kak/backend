@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -75,6 +76,21 @@ class PrizeControllerTest {
                         .content(new ObjectMapper().writeValueAsString(mockRequestDto)))
                 .andDo(print())
                 .andExpect(jsonPath("$.message").value(ErrorCode.INVALID_INPUT_VALUE.getMessage()))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    @DisplayName("잘못된 페이지 요청시 InvalidPageException 발생")
+    public void getPrizeList_invalidPage_test() throws Exception {
+        // given
+        int page = -1;
+        int size = 0;
+
+        // when & then
+        mockMvc.perform(get("/prize/")
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size)))
+                .andDo(print())
+                .andExpect(jsonPath("$.message").value(ErrorCode.INVALID_PAGE_REQUEST.getMessage()))
                 .andExpect(status().isBadRequest());
     }
 }
