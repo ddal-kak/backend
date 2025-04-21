@@ -1,8 +1,7 @@
 package ddalkak.prize.config.error;
 
 
-import ddalkak.prize.config.error.exception.BusinessBaseException;
-import ddalkak.prize.config.error.exception.InvalidValueException;
+import ddalkak.prize.config.error.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -38,9 +37,27 @@ public class GlobalExceptionHandler {
         return createErrorResponseEntity(ErrorCode.INVALID_INPUT_VALUE);
     }
 
+    @ExceptionHandler(InvalidPageRequestException.class)
+    protected ResponseEntity<ErrorResponse> handle(InvalidPageRequestException e) {
+        log.error("InvalidPageRequestException", e);
+        return createErrorResponseEntity(ErrorCode.INVALID_PAGE_REQUEST);
+    }
+    @ExceptionHandler(PageOutOfBoundsException.class)
+    protected ResponseEntity<ErrorResponse> handle(PageOutOfBoundsException e) {
+        log.error("PageOutOfBoundsException", e);
+        return createErrorResponseEntity(ErrorCode.PAGE_OUT_OF_BOUNDS);
+    }
+    @ExceptionHandler(PrizeNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handle(PrizeNotFoundException e) {
+        log.error("PrizeNotFoundException", e);
+        return createErrorResponseEntity(ErrorCode.PRIZE_NOT_FOUND);
+    }
+
+
     private ResponseEntity<ErrorResponse> createErrorResponseEntity(ErrorCode errorCode){
         return new ResponseEntity<>(
                 ErrorResponse.of(errorCode),
                 errorCode.getStatus());
     }
+
 }
