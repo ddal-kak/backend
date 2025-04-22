@@ -30,12 +30,6 @@ public class GlobalExceptionHandler {
         return createErrorResponseEntity(e.getErrorCode());
     }
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handle(Exception e) {
-        e.printStackTrace();
-        log.error("Exception", e);
-        return createErrorResponseEntity(e);
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class) // MethodArgumentNotValidException -> InvalidException 변환
     protected ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException e) {
@@ -71,13 +65,6 @@ public class GlobalExceptionHandler {
                 new ErrorResponse(message),
                 status
         );
-    }
-
-    private ResponseEntity<ErrorResponse> createErrorResponseEntity(Exception e){
-        return new ResponseEntity<>(
-                new ErrorResponse(e.getMessage()),
-                HttpStatus.INTERNAL_SERVER_ERROR
-            );
     }
 
 
