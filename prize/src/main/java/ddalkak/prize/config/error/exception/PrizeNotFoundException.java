@@ -6,7 +6,5 @@ public class PrizeNotFoundException extends BusinessBaseException{
     public PrizeNotFoundException() {
         super(ErrorCode.PAGE_OUT_OF_BOUNDS);
     }
-    public PrizeNotFoundException(ErrorCode errorCode) {
-        super(errorCode.getMessage(), errorCode);
-    }
+
 }

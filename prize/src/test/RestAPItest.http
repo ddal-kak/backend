@@ -15,6 +15,6 @@ content-type: application/json
 
 }
 #####
-GET http://localhost:8080/prize/?page=-1&size=2
+GET http://localhost:8080/prize?page=0&size=10
 #######
 GET http://localhost:8080/prize/3

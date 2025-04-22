@@ -1,8 +1,12 @@
 package ddalkak.prize.config.error;
 
 
-import ddalkak.prize.config.error.exception.*;
+import ddalkak.prize.config.error.exception.BusinessBaseException;
+import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
+import ddalkak.prize.config.error.exception.PrizeNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,11 +41,6 @@ public class GlobalExceptionHandler {
         return createErrorResponseEntity(ErrorCode.INVALID_INPUT_VALUE);
     }
 
-    @ExceptionHandler(InvalidPageRequestException.class)
-    protected ResponseEntity<ErrorResponse> handle(InvalidPageRequestException e) {
-        log.error("InvalidPageRequestException", e);
-        return createErrorResponseEntity(ErrorCode.INVALID_PAGE_REQUEST);
-    }
     @ExceptionHandler(PageOutOfBoundsException.class)
     protected ResponseEntity<ErrorResponse> handle(PageOutOfBoundsException e) {
         log.error("PageOutOfBoundsException", e);
@@ -53,11 +52,19 @@ public class GlobalExceptionHandler {
         return createErrorResponseEntity(ErrorCode.PRIZE_NOT_FOUND);
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<ErrorResponse> handle(ConstraintViolationException e) {
+        log.error("ConstraintViolationException", e);
+       ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
 
     private ResponseEntity<ErrorResponse> createErrorResponseEntity(ErrorCode errorCode){
         return new ResponseEntity<>(
                 ErrorResponse.of(errorCode),
                 errorCode.getStatus());
     }
+
 
 }
