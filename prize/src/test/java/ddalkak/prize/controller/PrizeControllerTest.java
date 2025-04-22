@@ -79,7 +79,7 @@ class PrizeControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    @DisplayName("잘못된 페이지 요청시 InvalidPageException 발생")
+    @DisplayName("잘못된 페이지 요청시 예외 발생")
     public void getPrizeList_invalidPage_test() throws Exception {
         // given
         int page = -1;

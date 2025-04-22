@@ -2,6 +2,7 @@ package ddalkak.prize.config.error;
 
 
 import ddalkak.prize.config.error.exception.BusinessBaseException;
+import ddalkak.prize.config.error.exception.InvalidValueException;
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -33,7 +34,7 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handle(Exception e) {
         e.printStackTrace();
         log.error("Exception", e);
-        return createErrorResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
+        return createErrorResponseEntity(e);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class) // MethodArgumentNotValidException -> InvalidException 변환
@@ -54,9 +55,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<ErrorResponse> handle(ConstraintViolationException e) {
-        log.error("ConstraintViolationException", e);
-       ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        log.error("InvalidPageRequest", e);
+       return createErrorResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 
@@ -65,6 +65,21 @@ public class GlobalExceptionHandler {
                 ErrorResponse.of(errorCode),
                 errorCode.getStatus());
     }
+
+    private ResponseEntity<ErrorResponse> createErrorResponseEntity(String message, HttpStatus status){
+        return new ResponseEntity<>(
+                new ErrorResponse(message),
+                status
+        );
+    }
+
+    private ResponseEntity<ErrorResponse> createErrorResponseEntity(Exception e){
+        return new ResponseEntity<>(
+                new ErrorResponse(e.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
+    }
+
 
 
 }
