@@ -1,17 +1,26 @@
 package ddalkak.prize.repository;
 
 import ddalkak.prize.domain.entity.Prize;
+
+
+import ddalkak.prize.repository.impl.PrizeRepositoryImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
+@Import(PrizeRepositoryImpl.class) //@DataJpaTest는 Jpa리포지토리만 스캔하기 때문에 prizeRepositoryImpl을 import 해줘야 함.
 class PrizeRepositoryTest {
     @Autowired
-    private PrizeJpaRepository prizeRepository;
+    private  PrizeRepository prizeRepository;
 
     @Test
     @DisplayName("Prize 저장 테스트")
@@ -34,5 +43,31 @@ class PrizeRepositoryTest {
         assertThat(savedPrize.getName()).isEqualTo("Test Prize");
 
     }
+    @Test
+    @DisplayName("Prize 페이징 테스트")
+    void PrizePagingTest(){
+        //given
+        for (int i = 0; i < 100; i++) {
+            Prize prize = new Prize(
+                    "Test Prize" + i,
+                    100,
+                    1000000,
+                    123456L,
+                    654321L
+            );
+            prizeRepository.save(prize);
+        }
+
+        Pageable pageable = PageRequest.of(0, 10);// 0번 페이지, 10개 데이터
+        //when
+        Page<Prize> prizePage = prizeRepository.findAllByIdDesc(pageable);
+        //then
+        assertThat(prizePage.getTotalElements()).isEqualTo(100);
+        assertThat(prizePage.getTotalPages()).isEqualTo(10);
+        assertThat(prizePage.getContent().size()).isEqualTo(10);
+
+    }
+
+
 
 }

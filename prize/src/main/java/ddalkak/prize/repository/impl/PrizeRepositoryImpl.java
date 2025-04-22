@@ -5,7 +5,11 @@ import ddalkak.prize.repository.PrizeJpaRepository;
 import ddalkak.prize.repository.PrizeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -18,4 +22,13 @@ public class PrizeRepositoryImpl implements PrizeRepository {
         return prizeJpaRepository.save(prize);
     }
 
+    @Override
+    public Page<Prize> findAllByIdDesc(Pageable pageable) {
+        return prizeJpaRepository.findAllByOrderByIdDesc(pageable);
+    }
+
+    @Override
+    public Optional<Prize> findById(Long id) {
+        return prizeJpaRepository.findById(id);
+    }
 }

@@ -3,7 +3,11 @@ package ddalkak.prize.config.error;
 
 import ddalkak.prize.config.error.exception.BusinessBaseException;
 import ddalkak.prize.config.error.exception.InvalidValueException;
+import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
+import ddalkak.prize.config.error.exception.PrizeNotFoundException;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -26,21 +30,43 @@ public class GlobalExceptionHandler {
         return createErrorResponseEntity(e.getErrorCode());
     }
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handle(Exception e) {
-        e.printStackTrace();
-        log.error("Exception", e);
-        return createErrorResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR);
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class) // MethodArgumentNotValidException -> InvalidException 변환
     protected ResponseEntity<ErrorResponse> handle(MethodArgumentNotValidException e) {
         return createErrorResponseEntity(ErrorCode.INVALID_INPUT_VALUE);
     }
 
+    @ExceptionHandler(PageOutOfBoundsException.class)
+    protected ResponseEntity<ErrorResponse> handle(PageOutOfBoundsException e) {
+        log.error("PageOutOfBoundsException", e);
+        return createErrorResponseEntity(ErrorCode.PAGE_OUT_OF_BOUNDS);
+    }
+    @ExceptionHandler(PrizeNotFoundException.class)
+    protected ResponseEntity<ErrorResponse> handle(PrizeNotFoundException e) {
+        log.error("PrizeNotFoundException", e);
+        return createErrorResponseEntity(ErrorCode.PRIZE_NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<ErrorResponse> handle(ConstraintViolationException e) {
+        log.error("request 검증 실패", e);
+       return createErrorResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+
     private ResponseEntity<ErrorResponse> createErrorResponseEntity(ErrorCode errorCode){
         return new ResponseEntity<>(
                 ErrorResponse.of(errorCode),
                 errorCode.getStatus());
     }
+
+    private ResponseEntity<ErrorResponse> createErrorResponseEntity(String message, HttpStatus status){
+        return new ResponseEntity<>(
+                new ErrorResponse(message),
+                status
+        );
+    }
+
+
+
 }
