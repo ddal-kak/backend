@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<ErrorResponse> handle(ConstraintViolationException e) {
-        log.error("InvalidPageRequest", e);
+        log.error("request 검증 실패", e);
        return createErrorResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 

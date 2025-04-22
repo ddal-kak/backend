@@ -31,8 +31,8 @@ public class PrizeController {
     }
     @GetMapping
     public ResponseEntity< List<PrizeResponseDto> > getPrizePage (
-        @PositiveOrZero(message = "페이지는 0이상이어야~~") @RequestParam(defaultValue = "0") int page,
-        @Positive(message = "사이즈는1이상이어야 ~") @RequestParam(defaultValue = "5") int size )
+        @PositiveOrZero(message = "처음 페이지입니다.") @RequestParam(defaultValue = "0") int page,
+        @Positive(message = "요청 데이터수는 1개 이상이어야 합니다.") @RequestParam(defaultValue = "5") int size )
     {
         return ResponseEntity.ok(prizeService.getPrizePage(page, size).getContent());
     }
