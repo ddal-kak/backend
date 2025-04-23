@@ -16,7 +16,7 @@ public class OutboxService {
     private final ObjectMapper objectMapper;
 
     @Transactional
-    public void saveExternalLoginEvent(ExternalLoginEvent loginEvent) {
+    public void saveLoginEvent(ExternalLoginEvent loginEvent) {
         String payload = null;
         try {
             payload = objectMapper.writeValueAsString(loginEvent);

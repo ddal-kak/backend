@@ -20,7 +20,7 @@ public class LoginEventHandler {
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void saveEventOnOutbox(InternalLoginEvent event) {
-        outboxService.saveExternalLoginEvent(new ExternalLoginEvent(
+        outboxService.saveLoginEvent(new ExternalLoginEvent(
                 event.eventId(),
                 event.getMemberId(),
                 event.occurAt()
