@@ -7,7 +7,7 @@ import ddalkak.member.dto.event.InternalLoginEvent;
 import ddalkak.member.dto.jwt.Jwt;
 import ddalkak.member.dto.jwt.RequiredClaims;
 import ddalkak.member.dto.response.LoginResponse;
-import ddalkak.member.service.JwtProvider;
+import ddalkak.member.service.auth.JwtProvider;
 import ddalkak.member.service.UniqueIdGenerator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
