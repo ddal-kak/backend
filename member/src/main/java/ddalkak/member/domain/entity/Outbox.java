@@ -11,8 +11,9 @@ import lombok.Getter;
 @Getter
 public class Outbox extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id")
+    @Column(name = "outbox_id")
     private Long id;
+    private Long eventId;
     @Enumerated(EnumType.STRING)
     private EventStatus status;
     @Enumerated(EnumType.STRING)
@@ -20,16 +21,22 @@ public class Outbox extends BaseEntity{
     @Column(columnDefinition = "JSON")
     private String payload;
 
-    public static Outbox of(String payload) {
+    public static Outbox of(Long eventId, String payload) {
         return Outbox.builder()
+                .eventId(eventId)
                 .payload(payload)
                 .status(EventStatus.READY_TO_PUBLISH)
                 .type(EventType.LOGIN)
                 .build();
     }
 
+    public void markAsPublished() {
+        status = EventStatus.PUBLISHED;
+    }
+
     @Builder(access = AccessLevel.PRIVATE)
-    private Outbox(EventStatus status, EventType type, String payload) {
+    public Outbox(Long eventId, EventStatus status, EventType type, String payload) {
+        this.eventId = eventId;
         this.status = status;
         this.type = type;
         this.payload = payload;
