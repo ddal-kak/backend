@@ -1,4 +1,4 @@
-package ddalkak.member.service;
+package ddalkak.member.service.auth;
 
 import ddalkak.member.domain.CustomUserDetails;
 import ddalkak.member.domain.entity.Member;

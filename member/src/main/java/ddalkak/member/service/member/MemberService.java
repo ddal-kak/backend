@@ -1,4 +1,4 @@
-package ddalkak.member.service;
+package ddalkak.member.service.member;
 
 import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.SignUpRequest;

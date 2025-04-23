@@ -1,4 +1,4 @@
-package ddalkak.member.service;
+package ddalkak.member.service.auth;
 
 import ddalkak.member.dto.jwt.Jwt;
 import ddalkak.member.dto.jwt.RequiredClaims;

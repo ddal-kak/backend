@@ -3,7 +3,7 @@ package ddalkak.member.controller;
 import com.google.gson.Gson;
 import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.SignUpRequest;
-import ddalkak.member.service.MemberService;
+import ddalkak.member.service.member.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

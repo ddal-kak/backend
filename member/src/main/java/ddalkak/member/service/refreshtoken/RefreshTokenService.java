@@ -1,4 +1,4 @@
-package ddalkak.member.service;
+package ddalkak.member.service.refreshtoken;
 
 import ddalkak.member.domain.entity.Member;
 import ddalkak.member.domain.entity.RefreshToken;

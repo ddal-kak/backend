@@ -4,7 +4,7 @@ import ddalkak.member.common.exception.DuplicatedEmailException;
 import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.SignUpRequest;
 import ddalkak.member.dto.response.SignUpResponse;
-import ddalkak.member.service.MemberService;
+import ddalkak.member.service.member.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
