@@ -1,6 +1,6 @@
 package ddalkak.member.repository.member;
 
-import ddalkak.member.domain.Member;
+import ddalkak.member.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

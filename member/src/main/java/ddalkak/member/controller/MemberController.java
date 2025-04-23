@@ -1,7 +1,7 @@
 package ddalkak.member.controller;
 
 import ddalkak.member.common.exception.DuplicatedEmailException;
-import ddalkak.member.domain.Member;
+import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.SignUpRequest;
 import ddalkak.member.dto.response.SignUpResponse;
 import ddalkak.member.service.MemberService;

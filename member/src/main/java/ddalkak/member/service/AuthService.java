@@ -1,7 +1,7 @@
 package ddalkak.member.service;
 
 import ddalkak.member.domain.CustomUserDetails;
-import ddalkak.member.domain.Member;
+import ddalkak.member.domain.entity.Member;
 import ddalkak.member.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

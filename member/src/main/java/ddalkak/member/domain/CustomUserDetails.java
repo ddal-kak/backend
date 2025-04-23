@@ -1,6 +1,6 @@
 package ddalkak.member.domain;
 
-import ddalkak.member.domain.Member;
+import ddalkak.member.domain.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

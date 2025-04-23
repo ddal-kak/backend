@@ -1,7 +1,7 @@
 package ddalkak.member.controller;
 
 import com.google.gson.Gson;
-import ddalkak.member.domain.Member;
+import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.SignUpRequest;
 import ddalkak.member.service.MemberService;
 import org.assertj.core.api.Assertions;

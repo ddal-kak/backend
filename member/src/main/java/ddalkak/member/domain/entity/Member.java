@@ -1,5 +1,6 @@
-package ddalkak.member.domain;
+package ddalkak.member.domain.entity;
 
+import ddalkak.member.domain.MemberType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Member {
+public class Member extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
     @Column(unique = true)

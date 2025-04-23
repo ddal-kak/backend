@@ -1,11 +1,6 @@
 package ddalkak.member.common.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ddalkak.member.common.filter.handler.CustomAuthenticationFailureHandler;
 import ddalkak.member.common.filter.CustomUsernamePasswordAuthFilter;
-import ddalkak.member.common.filter.handler.CustomAuthenticationSuccessHandler;
-import ddalkak.member.service.JwtProvider;
-import ddalkak.member.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,9 +21,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtProvider jwtProvider;
-    private final RefreshTokenService refreshTokenService;
-    private final ObjectMapper objectMapper;
+    private final AuthenticationSuccessHandler successHandler;
+    private final AuthenticationFailureHandler failureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -39,8 +33,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
         CustomUsernamePasswordAuthFilter filter = new CustomUsernamePasswordAuthFilter();
         filter.setAuthenticationManager(authenticationManager);
-        filter.setAuthenticationSuccessHandler(successHandler());
-        filter.setAuthenticationFailureHandler(failureHandler());
+        filter.setAuthenticationSuccessHandler(successHandler);
+        filter.setAuthenticationFailureHandler(failureHandler);
 
         return http
                 .csrf(csrf -> csrf.disable())
@@ -55,15 +49,5 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        return new CustomAuthenticationSuccessHandler(jwtProvider, refreshTokenService, objectMapper);
-    }
-
-    @Bean
-    public AuthenticationFailureHandler failureHandler() {
-        return new CustomAuthenticationFailureHandler();
     }
 }
