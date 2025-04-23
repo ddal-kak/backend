@@ -6,7 +6,7 @@ spring:
       on-profile: test
     import: aws-parameterstore:/config/member_test/
   datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL
+    url: jdbc:h2:mem:test;MODE=MySQL;INIT=SET REFERENTIAL_INTEGRITY FALSE
     driver-class-name: org.h2.Driver
     hikari:
       username: sa
