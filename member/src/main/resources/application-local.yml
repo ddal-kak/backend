@@ -18,6 +18,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
+  kafka:
+    producer:
+      bootstrap-servers: localhost:10000,localhost:10001,localhost:10002
+    template:
+      default-topic: login
 jwt:
   private_key: ${jwt_private_key}

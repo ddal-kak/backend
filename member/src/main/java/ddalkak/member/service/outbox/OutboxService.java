@@ -1,4 +1,4 @@
-package ddalkak.member.service;
+package ddalkak.member.service.outbox;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +23,13 @@ public class OutboxService {
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("payload 직렬화 실패");
         }
-        outboxRepository.save(Outbox.of(payload));
+        outboxRepository.save(Outbox.of(loginEvent.eventId(), payload));
+    }
+
+    @Transactional
+    public void markEventAsPublished(Long eventId) {
+        Outbox outbox = outboxRepository.findByEventId(eventId)
+                .orElseThrow(); // NoSuchElementException
+        outbox.markAsPublished();
     }
 }
