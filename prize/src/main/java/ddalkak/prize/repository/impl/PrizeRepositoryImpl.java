@@ -24,7 +24,7 @@ public class PrizeRepositoryImpl implements PrizeRepository {
 
     @Override
     public Page<Prize> findAllByIdDesc(Pageable pageable) {
-        return prizeJpaRepository.findAllByOrderByIdDesc(pageable);
+        return prizeJpaRepository.findByQuantityGreaterThanOrderByIdDesc(0 , pageable);
     }
 
     @Override
