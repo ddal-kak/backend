@@ -53,4 +53,10 @@ public class Prize {
     public Prize() {
 
     }
+
+    public void update(  String name, Integer quantity, Integer price ) {
+        if(name!= null) this.name = name;
+        if(quantity != null) this.quantity = quantity;
+        if(price != null) this.price = price;
+    }
 }
