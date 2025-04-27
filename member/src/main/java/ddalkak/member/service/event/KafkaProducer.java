@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class KafkaProducer implements ExternalEventPublisher{
+public class KafkaProducer implements ExternalEventPublisher {
     private final KafkaTemplate<String, ExternalEvent> kafkaTemplate;
 
     @Override
