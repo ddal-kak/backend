@@ -46,4 +46,6 @@ class PrizeServiceImplTest {
         // then
         assertThrows(PageOutOfBoundsException.class, () -> prizeServiceimpl.getPrizePage(page, size));
     }
+
+
 }

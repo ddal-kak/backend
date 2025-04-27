@@ -2,25 +2,30 @@ package ddalkak.prize.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.prize.config.error.ErrorCode;
-import ddalkak.prize.domain.dto.PrizeRequestDto;
+import ddalkak.prize.domain.dto.PrizeSaveRequestDto;
 import ddalkak.prize.domain.dto.PrizeResponseDto;
+import ddalkak.prize.domain.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.domain.entity.Prize;
 import ddalkak.prize.service.PrizeService;
+import jakarta.validation.constraints.Null;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Stream;
+
 import static org.mockito.ArgumentMatchers.any;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,22 +42,22 @@ class PrizeControllerTest {
     @DisplayName("정상 입력값이면 상품 저장 성공")
     public void save_test() throws Exception {
         // given
-        PrizeRequestDto mockRequestDto = new PrizeRequestDto("test RequestDto", 5000000, 1000, 5L);
+        PrizeSaveRequestDto mockRequestDto = new PrizeSaveRequestDto("test RequestDto", 5000000, 1000, 5L);
 
         PrizeResponseDto mockResponseDto = new PrizeResponseDto(1L, "test ResponseDto", 5000000, 1000, 5L, 123L);
 
         // PrizeService의 save 메서드에 대해 Mock 동작 설정
-        when(prizeService.save(any(PrizeRequestDto.class))).thenReturn(1L);
+        when(prizeService.save(any(PrizeSaveRequestDto.class))).thenReturn(1L);
 
         // when & then
-        mockMvc.perform(post("/prize/") // 컨트롤러의 매핑 URL
+        mockMvc.perform(post("/prize/") // 컨트롤러의 매핑URL
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(mockRequestDto))) // 요청 데이터를 JSON으로 직렬화
                 .andExpect(status().isOk()); // 응답 상태 코드 검증
 
 
         // PrizeService의 save 메서드 호출 검증
-        verify(prizeService, times(1)).save(any(PrizeRequestDto.class));
+        verify(prizeService, times(1)).save(any(PrizeSaveRequestDto.class));
     }
 
     @ParameterizedTest
@@ -68,7 +73,7 @@ class PrizeControllerTest {
     @DisplayName("잘못된 입력값이면 InvalidInputException 발생")
     public void save_invalidInput_test(String name, Integer price, Integer quantity, Long range) throws Exception {
         // given
-        PrizeRequestDto mockRequestDto = new PrizeRequestDto(name, price, quantity, range);
+        PrizeSaveRequestDto mockRequestDto = new PrizeSaveRequestDto(name, price, quantity, range);
 
         // when & then
         mockMvc.perform(post("/prize/")
@@ -92,4 +97,7 @@ class PrizeControllerTest {
                 .andDo(print());
 
     }
+
+
 }
+
