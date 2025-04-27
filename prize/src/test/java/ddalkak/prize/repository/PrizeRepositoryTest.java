@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,7 +49,7 @@ class PrizeRepositoryTest {
         for (int i = 0; i < 100; i++) {
             Prize prize = new Prize(
                     "Test Prize" + i,
-                    100,
+                    i,
                     1000000,
                     123456L,
                     654321L
@@ -62,11 +61,12 @@ class PrizeRepositoryTest {
         //when
         Page<Prize> prizePage = prizeRepository.findAllByIdDesc(pageable);
         //then
-        assertThat(prizePage.getTotalElements()).isEqualTo(100);
+        assertThat(prizePage.getTotalElements()).isEqualTo(99);
         assertThat(prizePage.getTotalPages()).isEqualTo(10);
         assertThat(prizePage.getContent().size()).isEqualTo(10);
 
     }
+
 
 
 

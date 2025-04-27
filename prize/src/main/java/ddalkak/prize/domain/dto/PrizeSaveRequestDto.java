@@ -8,7 +8,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 
 
-public record PrizeRequestDto (
+public record PrizeSaveRequestDto(
 
         @NotBlank
         String name,

@@ -1,7 +1,8 @@
 package ddalkak.prize.controller;
 
-import ddalkak.prize.domain.dto.PrizeRequestDto;
+import ddalkak.prize.domain.dto.PrizeSaveRequestDto;
 import ddalkak.prize.domain.dto.PrizeResponseDto;
+import ddalkak.prize.domain.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.service.PrizeService;
 
 import jakarta.validation.Valid;
@@ -24,9 +25,9 @@ public class PrizeController {
     private final PrizeService prizeService;
 
     @PostMapping
-    public ResponseEntity<Long> setPrize(@Valid @RequestBody PrizeRequestDto prizeRequestDto) {
+    public ResponseEntity<Long> setPrize(@Valid @RequestBody PrizeSaveRequestDto prizeSaveRequestDto) {
 
-        return ResponseEntity.ok(prizeService.save(prizeRequestDto));
+        return ResponseEntity.ok(prizeService.save(prizeSaveRequestDto));
 
     }
     @GetMapping
@@ -42,6 +43,10 @@ public class PrizeController {
     @GetMapping("/{id}")
     public ResponseEntity<PrizeResponseDto> getPrize(@PathVariable Long id) {
         return ResponseEntity.ok(prizeService.getPrize(id));
+    }
+    @PatchMapping
+    public ResponseEntity<Long> updatePrize(@Valid @RequestBody PrizeUpdateRequestDto prizeUpdateRequestDto) {
+        return ResponseEntity.ok(prizeService.updatePrize(prizeUpdateRequestDto));
     }
 
 }
