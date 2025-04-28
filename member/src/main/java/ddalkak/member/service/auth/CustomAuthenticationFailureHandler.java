@@ -1,4 +1,4 @@
-package ddalkak.member.common.filter.handler;
+package ddalkak.member.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.member.common.exception.TxFailureException;
@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
