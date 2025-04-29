@@ -26,6 +26,12 @@ public class MemberService {
         ));
     }
 
+    @Transactional(readOnly = true)
+    public Member findMember(final Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow();
+    }
+
     private void validateDuplicatedEmail(final String email) {
         if (isDuplicatedEmail(email)) {
             throw new DuplicatedEmailException(ErrorCode.DUPLICATED_EMAIL);
