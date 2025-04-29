@@ -3,6 +3,7 @@ package ddalkak.member.controller;
 import ddalkak.member.common.exception.DuplicatedEmailException;
 import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.request.SignUpRequest;
+import ddalkak.member.dto.response.MemberResponse;
 import ddalkak.member.dto.response.SignUpResponse;
 import ddalkak.member.service.member.MemberService;
 import jakarta.validation.Valid;
@@ -10,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,5 +32,11 @@ public class MemberController {
         Member newMember = memberService.signup(request);
         return ResponseEntity.ok()
                 .body(new SignUpResponse(newMember.getMemberId()));
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<MemberResponse> findMember(@PathVariable final Long memberId) {
+        return ResponseEntity.ok()
+                .body(MemberResponse.of(memberService.findMember(memberId)));
     }
 }

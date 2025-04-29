@@ -20,4 +20,9 @@ public class JpaMemberRepository implements MemberRepository {
     public Optional<Member> findByEmail(String email) {
         return dataJpaMemberRepository.findByEmail(email);
     }
+
+    @Override
+    public Optional<Member> findById(Long id) {
+        return dataJpaMemberRepository.findById(id);
+    }
 }
