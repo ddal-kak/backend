@@ -1,4 +1,4 @@
-package ddalkak.member.common.filter.handler;
+package ddalkak.member.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.member.domain.CustomUserDetails;
@@ -7,8 +7,7 @@ import ddalkak.member.dto.event.InternalLoginEvent;
 import ddalkak.member.dto.jwt.Jwt;
 import ddalkak.member.dto.jwt.RequiredClaims;
 import ddalkak.member.dto.response.LoginResponse;
-import ddalkak.member.service.auth.JwtProvider;
-import ddalkak.member.service.UniqueIdGenerator;
+import ddalkak.member.service.event.UniqueIdGenerator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
