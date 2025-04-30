@@ -2,10 +2,10 @@ package ddalkak.prize.service.impl;
 
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
-import ddalkak.prize.domain.dto.PrizeResponseDto;
-import ddalkak.prize.domain.dto.PrizeSaveRequestDto;
-import ddalkak.prize.domain.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.domain.entity.Prize;
+import ddalkak.prize.dto.PrizeResponseDto;
+import ddalkak.prize.dto.PrizeSaveRequestDto;
+import ddalkak.prize.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.repository.PrizeRepository;
 import ddalkak.prize.service.PrizeService;
 import ddalkak.prize.service.util.RandomNumberGenerator;

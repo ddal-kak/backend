@@ -1,8 +1,8 @@
 package ddalkak.prize.controller;
 
-import ddalkak.prize.domain.dto.PrizeSaveRequestDto;
-import ddalkak.prize.domain.dto.PrizeResponseDto;
-import ddalkak.prize.domain.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.dto.PrizeSaveRequestDto;
+import ddalkak.prize.dto.PrizeResponseDto;
+import ddalkak.prize.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.service.PrizeService;
 
 import jakarta.validation.Valid;

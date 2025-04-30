@@ -35,11 +35,19 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	//kafka
+	implementation 'org.springframework.kafka:spring-kafka'
+	//json 직렬화
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'com.h2database:h2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.mockito:mockito-core'
+	// Kafka 테스트
+	testImplementation 'org.springframework.kafka:spring-kafka-test'
+
 
 
 
