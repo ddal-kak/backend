@@ -20,4 +20,9 @@ public class JpaRefreshTokenRepository implements RefreshTokenRepository {
     public Optional<RefreshToken> findByMemberId(Long memberId) {
         return dataJpaRepository.findByMember_MemberId(memberId);
     }
+
+    @Override
+    public Optional<RefreshToken> findByToken(String token) {
+        return dataJpaRepository.findByToken(token);
+    }
 }
