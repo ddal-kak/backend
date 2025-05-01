@@ -72,7 +72,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private void setLoginSuccessResponse(HttpServletResponse response, Member loginMember, Jwt jwt) {
-        response.setHeader(HttpHeaders.AUTHORIZATION, jwt.grantType() + " " + jwt.accessToken());
+        response.setHeader(HttpHeaders.AUTHORIZATION, jwt.generateFullAccessTokenInfo());
         response.setHeader(HttpHeaders.SET_COOKIE, createRefreshTokenCookie(jwt));
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
@@ -84,10 +84,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private Jwt generateJwt(Member loginMember) {
-        return jwtProvider.valueOf(new RequiredClaims(
-                loginMember.getMemberId(),
-                loginMember.getName(),
-                loginMember.getRoles()));
+        return jwtProvider.valueOf(RequiredClaims.of(loginMember));
     }
 
     private String createRefreshTokenCookie(Jwt jwt) {
