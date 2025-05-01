@@ -16,7 +16,7 @@ public class RefreshTokenService {
     public void saveOrUpdate(final Member member, final String refreshToken) {
         refreshTokenRepository.findByMemberId(member.getMemberId())
                 .ifPresentOrElse(
-                        existToken -> existToken.setToken(refreshToken),
+                        existToken -> existToken.renewToken(refreshToken),
                         () -> refreshTokenRepository.save(RefreshToken.builder()
                                 .member(member)
                                 .token(refreshToken)
