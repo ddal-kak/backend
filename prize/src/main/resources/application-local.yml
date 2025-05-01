@@ -20,5 +20,6 @@ spring:
         hibernate.format_sql: true  # SQL 출력 포맷팅
 
   kafka:
-    producer:
       bootstrap-servers: localhost:10000,localhost:10001,localhost:10002
+
+
