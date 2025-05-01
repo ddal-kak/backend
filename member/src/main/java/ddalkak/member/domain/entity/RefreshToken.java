@@ -2,10 +2,13 @@ package ddalkak.member.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
-public class RefreshToken extends BaseEntity{
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Getter
+public class RefreshToken extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tokenId;
     @OneToOne
     @JoinColumn(name = "member_id")
@@ -23,7 +26,7 @@ public class RefreshToken extends BaseEntity{
         this.token = token;
     }
 
-    public void setToken(String token) {
+    public void renewToken(String token) {
         this.token = token;
     }
 }
