@@ -4,7 +4,7 @@ import ddalkak.prize.dto.PrizeResponseDto;
 import ddalkak.prize.dto.PrizeSaveRequestDto;
 import ddalkak.prize.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.repository.PrizeRepository;
-import ddalkak.prize.service.PrizeService;
+import ddalkak.prize.service.prize.PrizeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

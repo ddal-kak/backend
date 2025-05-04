@@ -2,7 +2,6 @@ package ddalkak.prize.config.error;
 
 
 import ddalkak.prize.config.error.exception.BusinessBaseException;
-import ddalkak.prize.config.error.exception.InvalidValueException;
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
 import jakarta.validation.ConstraintViolationException;
