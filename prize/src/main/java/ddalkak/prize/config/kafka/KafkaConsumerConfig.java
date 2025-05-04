@@ -1,7 +1,8 @@
 package ddalkak.prize.config.kafka;
 
 
-import ddalkak.prize.dto.PrizeDecreaseEvent;
+
+import ddalkak.prize.dto.DecreaseStockEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,8 +23,8 @@ public class KafkaConsumerConfig {
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;// TODO: 환경변수로 설정
     @Bean
-    public ConsumerFactory<String, PrizeDecreaseEvent> consumerFactory() {
-        JsonDeserializer<PrizeDecreaseEvent> deserializer = new JsonDeserializer<>(PrizeDecreaseEvent.class);
+    public ConsumerFactory<String, DecreaseStockEvent> consumerFactory() {
+        JsonDeserializer<DecreaseStockEvent> deserializer = new JsonDeserializer<>(DecreaseStockEvent.class);
         deserializer.setRemoveTypeHeaders(false);
         deserializer.addTrustedPackages("*");
         deserializer.setUseTypeMapperForKey(true);
@@ -40,8 +41,8 @@ public class KafkaConsumerConfig {
         );
     }
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, PrizeDecreaseEvent> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, PrizeDecreaseEvent> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, DecreaseStockEvent> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, DecreaseStockEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

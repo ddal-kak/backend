@@ -1,4 +1,4 @@
-package ddalkak.prize.service.impl;
+package ddalkak.prize.service.prize.impl;
 
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
@@ -7,7 +7,7 @@ import ddalkak.prize.dto.PrizeResponseDto;
 import ddalkak.prize.dto.PrizeSaveRequestDto;
 import ddalkak.prize.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.repository.PrizeRepository;
-import ddalkak.prize.service.PrizeService;
+import ddalkak.prize.service.prize.PrizeService;
 import ddalkak.prize.service.util.RandomNumberGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -109,6 +109,22 @@ public class PrizeServiceImpl implements PrizeService {
                prizeUpdateRequestDto.price()
        );
        return prize.getId();
+    }
+    /**
+     * 상품의 재고를 감소시킵니다.
+     *
+     * @param prizeId 상품 ID
+     * @throws PrizeNotFoundException 상품을 찾을 수 없는 경우
+     */
+    @Override
+    @Transactional
+    public void decreaseStock(Long prizeId) {
+        Prize prize = prizeRepository.findById(prizeId)
+                .orElseThrow(() -> new PrizeNotFoundException());
+        if (prize.getQuantity() <= 0) {
+            throw new IllegalStateException("상품 재고가 부족합니다.");
+        }
+        prize.update(null, prize.getQuantity() - 1, null);
     }
 
 

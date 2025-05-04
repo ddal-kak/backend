@@ -1,6 +1,6 @@
 package ddalkak.prize.dto;
 
-public record PrizeDecreaseEvent (
+public record DecreaseStockEvent (
         Long eventId,
         Long prizeId
 

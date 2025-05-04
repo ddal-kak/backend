@@ -1,4 +1,4 @@
-package ddalkak.prize.service;
+package ddalkak.prize.service.prize;
 
 
 import ddalkak.prize.dto.PrizeResponseDto;
@@ -11,5 +11,5 @@ public interface PrizeService {
     Page<PrizeResponseDto> getPrizePage(int page, int size);
     PrizeResponseDto getPrize(Long id);
     Long updatePrize(PrizeUpdateRequestDto prizeUpdateRequestDto);
-
+    void decreaseStock(Long prizeId);
 }
