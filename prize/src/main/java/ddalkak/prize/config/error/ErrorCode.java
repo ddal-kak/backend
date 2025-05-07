@@ -12,7 +12,10 @@ public enum ErrorCode {
     INVALID_PAGE_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 페이지 요청입니다."),
     PAGE_OUT_OF_BOUNDS(HttpStatus.BAD_REQUEST, "페이지 범위를 벗어났습니다."),
 
-    PRIZE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 상품을 찾을 수 없습니다.");
+    PRIZE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 상품을 찾을 수 없습니다."),
+    CONCURRENCY_EXCEPTION(HttpStatus.CONFLICT,"동시 요청으로 인해 처리 할 수 없습니다." ),
+    OUT_OF_STOCK(HttpStatus.CONFLICT,"상품 재고가 부족합니다." );
+
 
 
     private final String message;

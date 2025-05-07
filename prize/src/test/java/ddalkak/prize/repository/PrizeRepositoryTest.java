@@ -1,9 +1,8 @@
 package ddalkak.prize.repository;
 
 import ddalkak.prize.domain.entity.Prize;
-
-
-import ddalkak.prize.repository.impl.PrizeRepositoryImpl;
+import ddalkak.prize.repository.prize.PrizeRepository;
+import ddalkak.prize.repository.prize.impl.PrizeRepositoryImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +11,16 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @Import(PrizeRepositoryImpl.class) //@DataJpaTest는 Jpa리포지토리만 스캔하기 때문에 prizeRepositoryImpl을 import 해줘야 함.
+@EnableJpaAuditing
 class PrizeRepositoryTest {
     @Autowired
-    private  PrizeRepository prizeRepository;
+    private PrizeRepository prizeRepository;
 
     @Test
     @DisplayName("Prize 저장 테스트")
@@ -66,6 +67,8 @@ class PrizeRepositoryTest {
         assertThat(prizePage.getContent().size()).isEqualTo(10);
 
     }
+
+
 
 
 

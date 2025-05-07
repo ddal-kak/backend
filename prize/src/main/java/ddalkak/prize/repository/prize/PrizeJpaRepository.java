@@ -1,4 +1,4 @@
-package ddalkak.prize.repository;
+package ddalkak.prize.repository.prize;
 
 import ddalkak.prize.domain.entity.Prize;
 import org.springframework.data.domain.Page;
