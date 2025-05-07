@@ -2,7 +2,7 @@ package ddalkak.prize.service.impl;
 
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.domain.entity.Prize;
-import ddalkak.prize.repository.impl.PrizeRepositoryImpl;
+import ddalkak.prize.repository.prize.impl.PrizeRepositoryImpl;
 import ddalkak.prize.service.prize.impl.PrizeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
