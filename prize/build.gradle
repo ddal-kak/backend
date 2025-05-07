@@ -39,15 +39,16 @@ dependencies {
 	implementation 'org.springframework.kafka:spring-kafka'
 	//json 직렬화
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
-
-
+	//retry
+	implementation("org.springframework.retry:spring-retry")
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'com.h2database:h2'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.mockito:mockito-core'
 	// Kafka 테스트
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
-
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 
 
 
