@@ -32,10 +32,12 @@ public class KafkaEventListener implements EventListener {
         log.info("Received event: eventId= {}, prizeId= {}", event.eventId(), event.prizeId());
         // 상품 재고 감소 처리
         try {
+
             prizeService.decreaseStock(event.prizeId());
             // Outbox에 이벤트 저장
             outBoxService.save(event,true);
         } catch (Exception e) {
+            log.warn("Failed to decrease stock for prizeId= {}, eventId= {}", e);
             // 재고 감소 실패
             //실패 결과 저장
             outBoxService.save(event,false);

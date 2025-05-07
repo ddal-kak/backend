@@ -140,7 +140,7 @@ public class PrizeServiceImpl implements PrizeService {
     }
     @Recover
     public void recoverDecreaseStock(ObjectOptimisticLockingFailureException e, Long prizeId) {
-        log.error("Failed to decrease stock for prizeId: {}. Error: {}", prizeId, e.getMessage());
+        log.warn("Failed to decrease stock for prizeId: {}. Error: {}", prizeId, e.getMessage());
         throw new ConcurrencyException();
     }
 }
