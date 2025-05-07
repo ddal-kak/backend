@@ -1,7 +1,7 @@
 package ddalkak.prize.service.outbox;
 
-import ddalkak.prize.domain.entity.Outbox;
+import ddalkak.prize.dto.DecreaseStockEvent;
 
 public interface OutBoxService {
-    Long save(Outbox outbox);
+    Long save(DecreaseStockEvent event, boolean result);
 }

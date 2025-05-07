@@ -4,7 +4,6 @@ import ddalkak.prize.dto.DecreaseStockEvent;
 import ddalkak.prize.eventlistener.EventListener;
 import ddalkak.prize.service.outbox.OutBoxService;
 import ddalkak.prize.service.prize.PrizeService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,7 +17,7 @@ public class KafkaEventListener implements EventListener {
     private final OutBoxService outBoxService;
 
     /**
-     * Kafka에서 상품 재고 감소 이벤트를 수신하여 처리합니다.
+     * Kafka 에서 상품 재고 감소 이벤트를 수신하여 처리합니다.
      *
      * @param event 상품 재고 감소 이벤트
      */
@@ -28,11 +27,21 @@ public class KafkaEventListener implements EventListener {
             groupId = "prize-service",
             containerFactory = "kafkaListenerContainerFactory"
     )
-    @Transactional
+
     public void handleDecreaseStockEvent(DecreaseStockEvent event) {
         log.info("Received event: eventId= {}, prizeId= {}", event.eventId(), event.prizeId());
         // 상품 재고 감소 처리
-        prizeService.decreaseStock(event.prizeId());
+        try {
+            prizeService.decreaseStock(event.prizeId());
+            // Outbox에 이벤트 저장
+            outBoxService.save(event,true);
+        } catch (Exception e) {
+            // 재고 감소 실패
+            //실패 결과 저장
+            outBoxService.save(event,false);
+
+        }
+
 
 
 

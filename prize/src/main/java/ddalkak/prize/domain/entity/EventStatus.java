@@ -2,6 +2,6 @@ package ddalkak.prize.domain.entity;
 
 public enum EventStatus {
     PUBLISHED,
-    UNPUBLISHED
+    READY_TO_PUBLISH;
 
 }

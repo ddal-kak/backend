@@ -28,7 +28,8 @@ public class Prize extends BaseEntity{
     @Column(nullable = false)
     private Long randomNumber;
 
-
+    @Version
+    private Long version;
 
     public Prize( String name, Integer quantity, Integer price, Long probabilityRange, Long randomNumber) {
 

@@ -12,4 +12,5 @@ public interface PrizeService {
     PrizeResponseDto getPrize(Long id);
     Long updatePrize(PrizeUpdateRequestDto prizeUpdateRequestDto);
     void decreaseStock(Long prizeId);
+
 }

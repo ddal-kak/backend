@@ -1,5 +1,6 @@
 package ddalkak.prize.domain.entity;
 
+import ddalkak.prize.dto.DecreaseStockEvent;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -16,4 +17,14 @@ public class Outbox extends BaseEntity {
     @Column(columnDefinition = "JSON")
     private String payload;
 
+    public Outbox(Long eventId, String payload) {
+        this.eventId = eventId;
+        this.status = EventStatus.READY_TO_PUBLISH;
+        this.type = EventType.DECREASE_STOCK;
+        this.payload = payload;
+    }
+
+    public Outbox() {
+
+    }
 }
