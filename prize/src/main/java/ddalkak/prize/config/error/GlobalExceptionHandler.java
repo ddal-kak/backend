@@ -1,9 +1,7 @@
 package ddalkak.prize.config.error;
 
 
-import ddalkak.prize.config.error.exception.BusinessBaseException;
-import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
-import ddalkak.prize.config.error.exception.PrizeNotFoundException;
+import ddalkak.prize.config.error.exception.*;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -51,6 +49,18 @@ public class GlobalExceptionHandler {
         log.error("request 검증 실패", e);
        return createErrorResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(ConcurrencyException.class)
+    protected ResponseEntity<ErrorResponse> handle(ConcurrencyException e) {
+        log.error("ConcurrencyException", e);
+        return createErrorResponseEntity(ErrorCode.CONCURRENCY_EXCEPTION);
+    }
+
+    @ExceptionHandler(OutOfStockException.class)
+    protected ResponseEntity<ErrorResponse> handle(OutOfStockException e) {
+        log.error("OutOfStockException", e);
+        return createErrorResponseEntity(ErrorCode.OUT_OF_STOCK);
+    }
+
 
 
     private ResponseEntity<ErrorResponse> createErrorResponseEntity(ErrorCode errorCode){
