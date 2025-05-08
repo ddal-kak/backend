@@ -5,3 +5,10 @@ spring:
     activate:
       on-profile: local
     import: aws-parameterstore:/config/draw_local/
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
+uri:
+  prize_server: http://localhost:8090
