@@ -1,4 +1,4 @@
-package ddalkak.draw.service;
+package ddalkak.draw.service.api;
 
 import ddalkak.draw.domain.DrawProbability;
 import lombok.RequiredArgsConstructor;
