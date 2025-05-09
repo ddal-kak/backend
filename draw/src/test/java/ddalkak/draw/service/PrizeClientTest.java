@@ -1,6 +1,7 @@
 package ddalkak.draw.service;
 
 import ddalkak.draw.domain.DrawProbability;
+import ddalkak.draw.service.api.PrizeClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
