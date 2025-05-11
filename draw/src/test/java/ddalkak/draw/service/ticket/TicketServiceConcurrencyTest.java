@@ -23,7 +23,10 @@ class TicketServiceConcurrencyTest {
     @Test
     void 동시_응모권_차감_시_낙관적락_예외가_발생() throws InterruptedException {
         //given
-        Ticket ticket = new Ticket(1L, 2);
+        Ticket ticket = Ticket.builder()
+                .memberId(1L)
+                .quantity(2)
+                .build();
         ticketRepository.save(ticket);
 
         ExecutorService executorService = Executors.newFixedThreadPool(2);
