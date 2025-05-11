@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Getter
 @Entity
 public class Ticket {
@@ -14,7 +16,8 @@ public class Ticket {
     private Long memberId;
     private int quantity;
     @Version
-    private Long version; // 더블 클릭 등으로 인한 응모권 사용 동시성 제어
+    private Long version;// 더블 클릭 등으로 인한 응모권 사용 동시성 제어
+    private LocalDate lastLogin;
 
     public void decrease() {
         if (quantity <= 0) {
@@ -23,10 +26,18 @@ public class Ticket {
         quantity--;
     }
 
+    public void rewardDailyLogin(LocalDate today) {
+        if (lastLogin == null || !lastLogin.isEqual(today)) {
+            quantity++;
+            lastLogin = today;
+        }
+    }
+
     @Builder
-    public Ticket(Long memberId, int quantity) {
-        this.memberId = memberId;
+    public Ticket(LocalDate lastLogin, int quantity, Long memberId) {
+        this.lastLogin = lastLogin;
         this.quantity = quantity;
+        this.memberId = memberId;
     }
 
     public Ticket() {
