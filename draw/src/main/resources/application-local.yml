@@ -17,11 +17,14 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:10000,localhost:10001,localhost:10002
 
 uri:
   prize_server: http://localhost:8090
