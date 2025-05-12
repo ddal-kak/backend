@@ -1,7 +1,5 @@
 package ddalkak.prize.service.prize.impl;
 
-import ddalkak.prize.config.error.exception.ConcurrencyException;
-import ddalkak.prize.config.error.exception.OutOfStockException;
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
 import ddalkak.prize.domain.entity.Prize;
@@ -16,10 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Recover;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 
 
@@ -121,26 +115,21 @@ public class PrizeServiceImpl implements PrizeService {
      *
      * @param prizeId 상품 ID
      * @throws PrizeNotFoundException 상품을 찾을 수 없는 경우
-     * @throws OutOfStockException 재고가 없는 경우
-     * @throws ConcurrencyException 동시성 문제 발생 시
+     * @return 재고 감소 성공 여부
+     *
      */
     // 재고 감소 메서드
     @Transactional
-    @Retryable(value = ObjectOptimisticLockingFailureException.class,
-            maxAttempts = 5,
-            backoff = @Backoff(delay = 500)//0.5초 대기 후 재시도
-    )
-    public void decreaseStock(Long prizeId) {
+    public boolean decreaseStock(Long prizeId) {
         Prize prize = prizeRepository.findById(prizeId)
                 .orElseThrow(() -> new PrizeNotFoundException());
         if (prize.getQuantity() <= 0) {
-            throw new OutOfStockException();
+           return false;
+        } else {
+            prize.update(null, prize.getQuantity() - 1, null);
+            return true;
         }
-        prize.update(null, prize.getQuantity() - 1, null);
+
     }
-    @Recover
-    public void recoverDecreaseStock(ObjectOptimisticLockingFailureException e, Long prizeId) {
-        log.warn("Failed to decrease stock for prizeId: {}. Error: {}", prizeId, e.getMessage());
-        throw new ConcurrencyException();
-    }
+
 }

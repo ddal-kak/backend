@@ -49,17 +49,7 @@ public class GlobalExceptionHandler {
         log.error("request 검증 실패", e);
        return createErrorResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(ConcurrencyException.class)
-    protected ResponseEntity<ErrorResponse> handle(ConcurrencyException e) {
-        log.error("ConcurrencyException", e);
-        return createErrorResponseEntity(ErrorCode.CONCURRENCY_EXCEPTION);
-    }
 
-    @ExceptionHandler(OutOfStockException.class)
-    protected ResponseEntity<ErrorResponse> handle(OutOfStockException e) {
-        log.error("OutOfStockException", e);
-        return createErrorResponseEntity(ErrorCode.OUT_OF_STOCK);
-    }
 
 
 

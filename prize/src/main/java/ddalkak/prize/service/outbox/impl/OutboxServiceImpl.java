@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.prize.domain.entity.Outbox;
 import ddalkak.prize.dto.DecreaseResultEvent;
 import ddalkak.prize.dto.DecreaseStockEvent;
+import ddalkak.prize.eventhandler.DecreaseResult;
 import ddalkak.prize.repository.outbox.OutboxRepository;
 import ddalkak.prize.service.outbox.OutBoxService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,13 @@ public class OutboxServiceImpl implements OutBoxService {
     private final OutboxRepository outboxRepository;
     private final ObjectMapper objectMapper;
     @Override
-    public Long save(DecreaseStockEvent event, boolean result) {
+    @Transactional
+    public Long save(DecreaseStockEvent event, DecreaseResult decreaseResult) {
 
         DecreaseResultEvent decreaseResultEvent = new DecreaseResultEvent(
                 event.eventId(),
                 event.prizeId(),
-                result
+                decreaseResult
         );
         String payload = null;
         try {

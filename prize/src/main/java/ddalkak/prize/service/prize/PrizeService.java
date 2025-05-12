@@ -11,6 +11,6 @@ public interface PrizeService {
     Page<PrizeResponseDto> getPrizePage(int page, int size);
     PrizeResponseDto getPrize(Long id);
     Long updatePrize(PrizeUpdateRequestDto prizeUpdateRequestDto);
-    void decreaseStock(Long prizeId);
+    boolean decreaseStock(Long prizeId);
 
 }
