@@ -90,7 +90,7 @@ public class PrizeServiceImpl implements PrizeService {
         log.info("Fetching prize with id: {}", id);
         return prizeRepository.findById(id)
                 .map(PrizeResponseDto::new)
-                .orElseThrow(() -> new PrizeNotFoundException());
+                .orElseThrow( PrizeNotFoundException::new);
     }
     /**
      * 상품 정보를 업데이트합니다.
@@ -104,7 +104,7 @@ public class PrizeServiceImpl implements PrizeService {
     public Long updatePrize(PrizeUpdateRequestDto prizeUpdateRequestDto) {
         log.info("Updating prize with id: {}", prizeUpdateRequestDto.id());
        Prize prize = prizeRepository.findById(prizeUpdateRequestDto.id())
-               .orElseThrow(() -> new PrizeNotFoundException());
+               .orElseThrow(PrizeNotFoundException::new);
        prize.update(
                prizeUpdateRequestDto.name(),
                prizeUpdateRequestDto.quantity(),
@@ -117,14 +117,14 @@ public class PrizeServiceImpl implements PrizeService {
      *
      * @param prizeId 상품 ID
      * @throws PrizeNotFoundException 상품을 찾을 수 없는 경우
-     * 
+     *
      *
      */
     // 재고 감소 메서드
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void decreaseStock(Long prizeId) {
         Prize prize = prizeRepository.findById(prizeId)
-                .orElseThrow(() -> new PrizeNotFoundException());
+                .orElseThrow(PrizeNotFoundException::new);
         if (prize.getQuantity() <= 0) {
            throw new OutOfStockException();
         } else {

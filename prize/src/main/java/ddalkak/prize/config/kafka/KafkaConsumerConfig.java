@@ -40,16 +40,7 @@ public class KafkaConsumerConfig {
         );
     }
 
-//    @Bean
-//    public DefaultErrorHandler errorHandler(OutBoxService outBoxService) {
-//      FixedBackOff backOff = new FixedBackOff(100L, 4); // 0.1초 간격, 4회 추가 재시도(총 5번)
-//        ConsumerRecordRecoverer recoverer = (record, ex) -> {
-//
-//        };
-//
-//        DefaultErrorHandler handler = new DefaultErrorHandler(recoverer, backOff);
-//        return handler;
-//    }
+
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, DecreaseStockEvent> kafkaListenerContainerFactory() {
@@ -57,7 +48,6 @@ public class KafkaConsumerConfig {
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
-//       // factory.setCommonErrorHandler(errorHandler);
         return factory;
     }
 
