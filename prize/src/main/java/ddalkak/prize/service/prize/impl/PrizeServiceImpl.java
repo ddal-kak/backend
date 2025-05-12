@@ -117,7 +117,7 @@ public class PrizeServiceImpl implements PrizeService {
      *
      * @param prizeId 상품 ID
      * @throws PrizeNotFoundException 상품을 찾을 수 없는 경우
-     * @return 재고 감소 성공 여부
+     * 
      *
      */
     // 재고 감소 메서드
