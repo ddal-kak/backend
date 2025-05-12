@@ -1,5 +1,6 @@
 package ddalkak.prize.service.prize.impl;
 
+import ddalkak.prize.config.error.exception.OutOfStockException;
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
 import ddalkak.prize.domain.entity.Prize;
@@ -9,13 +10,14 @@ import ddalkak.prize.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.repository.prize.PrizeRepository;
 import ddalkak.prize.service.prize.PrizeService;
 import ddalkak.prize.service.util.RandomNumberGenerator;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -119,15 +121,14 @@ public class PrizeServiceImpl implements PrizeService {
      *
      */
     // 재고 감소 메서드
-    @Transactional
-    public boolean decreaseStock(Long prizeId) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void decreaseStock(Long prizeId) {
         Prize prize = prizeRepository.findById(prizeId)
                 .orElseThrow(() -> new PrizeNotFoundException());
         if (prize.getQuantity() <= 0) {
-           return false;
+           throw new OutOfStockException();
         } else {
-            prize.update(null, prize.getQuantity() - 1, null);
-            return true;
+           prize.update(null,prize.getQuantity() - 1, null);
         }
 
     }

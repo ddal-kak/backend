@@ -7,10 +7,11 @@ import ddalkak.prize.dto.DecreaseStockEvent;
 import ddalkak.prize.eventhandler.DecreaseResult;
 import ddalkak.prize.repository.outbox.OutboxRepository;
 import ddalkak.prize.service.outbox.OutBoxService;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j

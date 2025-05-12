@@ -19,7 +19,7 @@ public class KafkaEventListener {
             groupId = "prize-service",
             containerFactory = "kafkaListenerContainerFactory"
     )
-    @Transactional
+
     public void onMessage(DecreaseStockEvent event, Acknowledgment ack) {
           eventHandler.handleDecreaseStockEvent(event);
           ack.acknowledge();
