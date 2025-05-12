@@ -1,0 +1,8 @@
+spring:
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers}
+    consumer:
+      auto-offset-reset: earliest
+      group-id: test-group
+    template:
+      default-topic: prize.decrease

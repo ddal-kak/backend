@@ -1,9 +1,9 @@
 package ddalkak.prize.controller;
 
-import ddalkak.prize.domain.dto.PrizeSaveRequestDto;
-import ddalkak.prize.domain.dto.PrizeResponseDto;
-import ddalkak.prize.domain.dto.PrizeUpdateRequestDto;
-import ddalkak.prize.service.PrizeService;
+import ddalkak.prize.dto.PrizeSaveRequestDto;
+import ddalkak.prize.dto.PrizeResponseDto;
+import ddalkak.prize.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.service.prize.PrizeService;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 public class PrizeController {
-    @Autowired
+
     private final PrizeService prizeService;
 
     @PostMapping

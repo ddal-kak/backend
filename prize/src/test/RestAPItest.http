@@ -15,6 +15,6 @@ Content-Type: application/json
 
 {
 	"id": 1,
-	"price": 8000
+	"quantity": 1
 }
 ###

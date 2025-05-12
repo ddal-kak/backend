@@ -1,8 +1,8 @@
-package ddalkak.prize.repository.impl;
+package ddalkak.prize.repository.prize.impl;
 
 import ddalkak.prize.domain.entity.Prize;
-import ddalkak.prize.repository.PrizeJpaRepository;
-import ddalkak.prize.repository.PrizeRepository;
+import ddalkak.prize.repository.prize.PrizeJpaRepository;
+import ddalkak.prize.repository.prize.PrizeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Repository
 public class PrizeRepositoryImpl implements PrizeRepository {
-    @Autowired
+
     private final PrizeJpaRepository prizeJpaRepository;
 
     @Override
@@ -31,4 +31,5 @@ public class PrizeRepositoryImpl implements PrizeRepository {
     public Optional<Prize> findById(Long id) {
         return prizeJpaRepository.findById(id);
     }
+
 }

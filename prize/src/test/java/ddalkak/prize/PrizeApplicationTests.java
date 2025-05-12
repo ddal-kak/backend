@@ -1,11 +1,11 @@
 package ddalkak.prize;
 
-import ddalkak.prize.domain.dto.PrizeResponseDto;
-import ddalkak.prize.domain.dto.PrizeSaveRequestDto;
-import ddalkak.prize.domain.dto.PrizeUpdateRequestDto;
-import ddalkak.prize.domain.entity.Prize;
-import ddalkak.prize.repository.PrizeRepository;
-import ddalkak.prize.service.PrizeService;
+import ddalkak.prize.dto.PrizeResponseDto;
+import ddalkak.prize.dto.PrizeSaveRequestDto;
+import ddalkak.prize.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.repository.prize.PrizeRepository;
+import ddalkak.prize.service.prize.PrizeService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,14 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class PrizeApplicationTests {
 
@@ -82,4 +88,37 @@ class PrizeApplicationTests {
 		assertThat(updatedPrize.quantity()).isEqualTo(updatedQuantity);
 		assertThat(updatedPrize.price()).isEqualTo(updatedPrice);
 	}
+
+	@Test
+	@DisplayName("동시성 테스트")
+	void testDecreaseStock() throws InterruptedException {
+		// Given
+		//  초기 Prize 객체를 생성하고 저장
+		PrizeSaveRequestDto saveRequestDto = new PrizeSaveRequestDto(
+				"Test Prize",
+				10,
+				1000,
+				5L
+		);
+		Long savedId = prizeService.save(saveRequestDto);
+
+		ExecutorService executorService = Executors.newFixedThreadPool(5);
+		CountDownLatch countDownLatch = new CountDownLatch(5);
+
+		for ( int i = 0; i < 5; i++) {
+
+			executorService.execute(()->{
+				prizeService.decreaseStock(savedId);
+				countDownLatch.countDown();
+			});
+		}
+		countDownLatch.await(5, TimeUnit.SECONDS);
+		executorService.shutdown();
+		//then
+		assertThat(prizeRepository.findById(savedId).get().getQuantity()).isEqualTo(5);
+
+	}
+
+
+
 }

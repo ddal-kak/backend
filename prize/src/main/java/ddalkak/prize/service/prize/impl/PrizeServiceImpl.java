@@ -1,21 +1,23 @@
-package ddalkak.prize.service.impl;
+package ddalkak.prize.service.prize.impl;
 
+import ddalkak.prize.config.error.exception.OutOfStockException;
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
-import ddalkak.prize.domain.dto.PrizeResponseDto;
-import ddalkak.prize.domain.dto.PrizeSaveRequestDto;
-import ddalkak.prize.domain.dto.PrizeUpdateRequestDto;
 import ddalkak.prize.domain.entity.Prize;
-import ddalkak.prize.repository.PrizeRepository;
-import ddalkak.prize.service.PrizeService;
+import ddalkak.prize.dto.PrizeResponseDto;
+import ddalkak.prize.dto.PrizeSaveRequestDto;
+import ddalkak.prize.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.repository.prize.PrizeRepository;
+import ddalkak.prize.service.prize.PrizeService;
 import ddalkak.prize.service.util.RandomNumberGenerator;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -88,7 +90,7 @@ public class PrizeServiceImpl implements PrizeService {
         log.info("Fetching prize with id: {}", id);
         return prizeRepository.findById(id)
                 .map(PrizeResponseDto::new)
-                .orElseThrow(() -> new PrizeNotFoundException());
+                .orElseThrow( PrizeNotFoundException::new);
     }
     /**
      * 상품 정보를 업데이트합니다.
@@ -102,7 +104,7 @@ public class PrizeServiceImpl implements PrizeService {
     public Long updatePrize(PrizeUpdateRequestDto prizeUpdateRequestDto) {
         log.info("Updating prize with id: {}", prizeUpdateRequestDto.id());
        Prize prize = prizeRepository.findById(prizeUpdateRequestDto.id())
-               .orElseThrow(() -> new PrizeNotFoundException());
+               .orElseThrow(PrizeNotFoundException::new);
        prize.update(
                prizeUpdateRequestDto.name(),
                prizeUpdateRequestDto.quantity(),
@@ -110,7 +112,25 @@ public class PrizeServiceImpl implements PrizeService {
        );
        return prize.getId();
     }
+    /**
+     * 상품의 재고를 감소시킵니다.
+     *
+     * @param prizeId 상품 ID
+     * @throws PrizeNotFoundException 상품을 찾을 수 없는 경우
+     *
+     *
+     */
+    // 재고 감소 메서드
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void decreaseStock(Long prizeId) {
+        Prize prize = prizeRepository.findById(prizeId)
+                .orElseThrow(PrizeNotFoundException::new);
+        if (prize.getQuantity() <= 0) {
+           throw new OutOfStockException();
+        } else {
+           prize.update(null,prize.getQuantity() - 1, null);
+        }
 
-
+    }
 
 }
