@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: delivery
-  config:
-    activate:
-      on-profile: local
-    import: aws-parameterstore:/config/delivery_local/
