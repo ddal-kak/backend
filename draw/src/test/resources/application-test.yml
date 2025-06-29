@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: draw
+  config:
+    activate:
+      on-profile: test
+    import: aws-parameterstore:/config/draw_local/
+  datasource:
+    url: jdbc:h2:mem:test;MODE=MySQL;INIT=SET REFERENTIAL_INTEGRITY FALSE
+    driver-class-name: org.h2.Driver
+    hikari:
+      username: sa
+      password:
+#      transaction-isolation: TRANSACTION_READ_UNCOMMITTED
+  data:
+    redis:
+      port: 6379
+      host: localhost
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+#logging:
+#  level:
+#    root: debug
+uri:
+  prize_server: http://localhost:8090

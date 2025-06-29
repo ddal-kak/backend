@@ -5,3 +5,26 @@ spring:
     activate:
       on-profile: local
     import: aws-parameterstore:/config/draw_local/
+  data:
+    redis:
+      port: 6379
+      host: localhost
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:10000,localhost:10001,localhost:10002
+
+uri:
+  prize_server: http://localhost:8090

@@ -29,7 +29,24 @@ dependencies {
 	implementation("io.awspring.cloud:spring-cloud-aws-starter")
   	implementation("io.awspring.cloud:spring-cloud-aws-starter-parameter-store")
 
+	// Redis (Lettuce)
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// Cache
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+	// Web Client
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Kafka
+	implementation 'org.apache.kafka:kafka-streams'
+	implementation 'org.springframework.kafka:spring-kafka'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	// 테스트용 임베디드 h2
+	testRuntimeOnly 'com.h2database:h2'
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
