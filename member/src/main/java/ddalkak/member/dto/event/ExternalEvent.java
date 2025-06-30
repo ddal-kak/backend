@@ -16,4 +16,12 @@ public record ExternalEvent(Long eventId,
                 .occurAt(internalLoginEvent.occurAt())
                 .build();
     }
+
+    public static ExternalEvent of(InternalSignUpEvent internalEvent) {
+        return ExternalEvent.builder()
+                .eventId(internalEvent.eventId())
+                .memberId(internalEvent.memberId())
+                .occurAt(internalEvent.occurAt())
+                .build();
+    }
 }
