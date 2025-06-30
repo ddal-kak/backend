@@ -1,7 +1,6 @@
 package ddalkak.prize.config.kafka;
 
 import ddalkak.prize.dto.DecreaseResultEvent;
-import ddalkak.prize.eventhandler.dto.DecreaseResultMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
