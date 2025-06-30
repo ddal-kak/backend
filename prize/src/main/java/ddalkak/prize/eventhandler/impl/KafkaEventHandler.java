@@ -1,9 +1,12 @@
 package ddalkak.prize.eventhandler.impl;
 
 import ddalkak.prize.config.error.exception.OutOfStockException;
+import ddalkak.prize.dto.DecreaseResultEvent;
 import ddalkak.prize.dto.DecreaseStockEvent;
 import ddalkak.prize.eventhandler.DecreaseResult;
 import ddalkak.prize.eventhandler.EventHandler;
+import ddalkak.prize.eventhandler.eventpublisher.EventPublisher;
+import ddalkak.prize.eventhandler.eventpublisher.impl.KafkaPublisher;
 import ddalkak.prize.service.outbox.OutBoxService;
 import ddalkak.prize.service.prize.PrizeService;
 
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class KafkaEventHandler implements EventHandler {
     private final PrizeService prizeService;
     private final OutBoxService outBoxService;
+    private final EventPublisher eventPublisher;
 
     /**
      * Kafka 에서 상품 재고 감소 이벤트를 수신하여 처리합니다.
@@ -34,9 +38,18 @@ public class KafkaEventHandler implements EventHandler {
             prizeService.decreaseStock(event.prizeId());
             // Outbox에 이벤트 저장
             outBoxService.save(event, DecreaseResult.SUCCESS);
+            eventPublisher.publish(new DecreaseResultEvent(
+                    event.eventId(),
+                    event.prizeId(),
+                    DecreaseResult.SUCCESS));
+
         } catch (OutOfStockException e) {
             log.warn("Failed to decrease stock for eventId= {}, prizeId= {}", event.eventId(), event.prizeId());
             outBoxService.save(event, DecreaseResult.FAILURE);
+            eventPublisher.publish(new DecreaseResultEvent(
+                    event.eventId(),
+                    event.prizeId(),
+                    DecreaseResult.FAILURE));
         }
     }
 }

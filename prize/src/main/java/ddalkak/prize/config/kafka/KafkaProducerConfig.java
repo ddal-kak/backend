@@ -1,8 +1,10 @@
 package ddalkak.prize.config.kafka;
 
 import ddalkak.prize.dto.DecreaseResultEvent;
+import ddalkak.prize.eventhandler.eventpublisher.KafkaProducerListener;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,9 @@ public class KafkaProducerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
+    @Autowired
+    private KafkaProducerListener kafkaProducerListener;
+
     @Bean
     public ProducerFactory<String, DecreaseResultEvent> producerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -33,6 +38,8 @@ public class KafkaProducerConfig {
 
     @Bean
     public KafkaTemplate<String, DecreaseResultEvent> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+        KafkaTemplate<String, DecreaseResultEvent> template = new KafkaTemplate<>(producerFactory());
+        template.setProducerListener(kafkaProducerListener);
+        return template;
     }
 }

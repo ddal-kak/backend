@@ -5,4 +5,5 @@ import ddalkak.prize.eventhandler.DecreaseResult;
 
 public interface OutBoxService {
     Long save(DecreaseStockEvent event, DecreaseResult decreaseResult);
+    void markEventAsPublished(Long eventId);
 }

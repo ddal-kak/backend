@@ -40,4 +40,12 @@ public class OutboxServiceImpl implements OutBoxService {
 
 
     }
+    @Override
+    @Transactional
+    public void markEventAsPublished(Long eventId) {
+        Outbox outbox = outboxRepository.findByEventId(eventId)
+                .orElseThrow();
+        outbox.markAsPublished();
+        log.info("Event marked as published: eventId= {}", eventId);
+    }
 }
