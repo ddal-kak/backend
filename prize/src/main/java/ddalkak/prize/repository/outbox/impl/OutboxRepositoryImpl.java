@@ -6,6 +6,8 @@ import ddalkak.prize.repository.outbox.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class OutboxRepositoryImpl implements OutboxRepository {
@@ -13,6 +15,10 @@ public class OutboxRepositoryImpl implements OutboxRepository {
     @Override
     public Outbox save(Outbox outbox) {
         return outboxJpaRepository.save(outbox);
+    }
+    @Override
+    public Optional<Outbox> findByEventId(Long eventId) {
+        return outboxJpaRepository.findByEventId(eventId);
     }
 
 }

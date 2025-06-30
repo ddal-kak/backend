@@ -9,6 +9,7 @@ import lombok.Getter;
 public class Outbox extends BaseEntity {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private Long eventId;
     @Enumerated(EnumType.STRING)
     private EventStatus status;
@@ -26,5 +27,9 @@ public class Outbox extends BaseEntity {
 
     public Outbox() {
 
+    }
+
+    public void markAsPublished() {
+        this.status = EventStatus.PUBLISHED;
     }
 }
