@@ -20,6 +20,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:10000,localhost:10001,localhost:10002
 #logging:
 #  level:
 #    root: debug
