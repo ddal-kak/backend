@@ -2,9 +2,8 @@ package ddalkak.member.service.event;
 
 import ddalkak.member.domain.EventType;
 import ddalkak.member.dto.event.ExternalEvent;
-import ddalkak.member.dto.event.InternalLoginEvent;
+import ddalkak.member.dto.event.InternalSignUpEvent;
 import ddalkak.member.service.outbox.OutboxService;
-import ddalkak.member.service.refreshtoken.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -15,26 +14,20 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class InternalLoginEventHandler {
-    private final RefreshTokenService refreshTokenService;
+public class InternalSignUpEventHandler {
     private final OutboxService outboxService;
     private final ExternalEventPublisher externalEventPublisher;
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void saveRefreshToken(InternalLoginEvent event) {
-        refreshTokenService.saveOrUpdate(event.member(), event.refreshToken());
-    }
-
-    @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void saveEventOnOutbox(InternalLoginEvent event) {
+    public void saveEventOnOutbox(InternalSignUpEvent event) {
         outboxService.saveEvent(
-                new ExternalEvent(event.eventId(), event.getMemberId(), event.occurAt()),
-                EventType.LOGIN);
+                new ExternalEvent(event.eventId(), event.memberId(), event.occurAt()),
+                EventType.SIGNUP);
     }
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    public void publishExternalEvent(InternalLoginEvent internalEvent) {
-        externalEventPublisher.publish(EventType.LOGIN.getTopic(), ExternalEvent.of(internalEvent));
+    public void publishExternalEvent(InternalSignUpEvent internalEvent) {
+        externalEventPublisher.publish(EventType.SIGNUP.getTopic(), ExternalEvent.of(internalEvent));
     }
 }

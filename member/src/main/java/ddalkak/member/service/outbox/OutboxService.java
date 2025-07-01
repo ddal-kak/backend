@@ -2,6 +2,7 @@ package ddalkak.member.service.outbox;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ddalkak.member.domain.EventType;
 import ddalkak.member.domain.entity.Outbox;
 import ddalkak.member.dto.event.ExternalEvent;
 import ddalkak.member.dto.event.PendingEvent;
@@ -22,14 +23,14 @@ public class OutboxService {
     private final ObjectMapper objectMapper;
 
     @Transactional
-    public void saveLoginEvent(ExternalEvent loginEvent) {
+    public void saveEvent(ExternalEvent loginEvent, EventType eventType) {
         String payload = null;
         try {
             payload = objectMapper.writeValueAsString(loginEvent);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException("payload 직렬화 실패");
         }
-        outboxRepository.save(Outbox.of(loginEvent.eventId(), payload));
+        outboxRepository.save(Outbox.of(loginEvent.eventId(), payload, eventType));
     }
 
     @Transactional
