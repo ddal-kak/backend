@@ -16,6 +16,11 @@ public class TicketService {
     private final TicketRepository ticketRepository;
 
     @Transactional
+    public void initTicket(final long newMemberId) {
+        ticketRepository.save(Ticket.of(newMemberId));
+    }
+
+    @Transactional
     public void useTicket(final long memberId) {
         Ticket ticket = ticketRepository.findByMemberId(memberId)
                 .orElseThrow();

@@ -2,6 +2,7 @@ package ddalkak.draw.service.ticket;
 
 import ddalkak.draw.domain.entity.Ticket;
 import ddalkak.draw.repository.ticket.JpaTicketRepository;
+import ddalkak.draw.repository.ticket.TicketRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ class TicketServiceConcurrencyTest {
     @Autowired
     private TicketService ticketService;
     @Autowired
-    private JpaTicketRepository ticketRepository;
+    private TicketRepository ticketRepository;
 
     @Test
     void 동시_응모권_차감_시_낙관적락_예외가_발생() throws InterruptedException {

@@ -1,6 +1,7 @@
 package ddalkak.draw.common.config;
 
 import ddalkak.draw.dto.event.LoginEvent;
+import ddalkak.draw.dto.event.SignUpEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,15 +29,11 @@ public class KafkaConfig {
     @Value(value = "${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapAddress;
 
+    // 로그인 이벤트 처리용 컨슈머 팩토리 설정
     @Bean
     public ConsumerFactory<String, LoginEvent> loginConsumeFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-
         return new DefaultKafkaConsumerFactory<>(
-                configProps,
+                generateDefaultConsumerConfig(),
                 new StringDeserializer(),
                 new JsonDeserializer<>(LoginEvent.class, false)
         );
@@ -48,5 +45,31 @@ public class KafkaConfig {
         factory.setConsumerFactory(loginConsumeFactory());
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
         return factory;
+    }
+
+    // 회원가입 이벤트 처리용 컨슈머 팩토리 설정
+    @Bean
+    public ConsumerFactory<String, SignUpEvent> signupConsumeFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+                generateDefaultConsumerConfig(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(SignUpEvent.class, false)
+        );
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, SignUpEvent> kafkaSignUpListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, SignUpEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(signupConsumeFactory());
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
+        return factory;
+    }
+
+    private Map<String, Object> generateDefaultConsumerConfig() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        return configProps;
     }
 }
