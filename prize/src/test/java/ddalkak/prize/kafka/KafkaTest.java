@@ -1,8 +1,7 @@
 package ddalkak.prize.kafka;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ddalkak.prize.dto.DecreaseStockEvent;
+import ddalkak.prize.dto.DrawWinEvent;
 import ddalkak.prize.dto.PrizeResponseDto;
 import ddalkak.prize.dto.PrizeSaveRequestDto;
 import ddalkak.prize.service.prize.PrizeService;
@@ -61,7 +60,7 @@ class KafkaTest {
         for (int i = 0; i < numberOfRequests; i++) {
             executorService.submit(() -> {
                 try {
-                    DecreaseStockEvent event = new DecreaseStockEvent(1L, prizeId);
+                    DrawWinEvent event = new DrawWinEvent(1L, prizeId);
                     String jsonEvent = objectMapper.writeValueAsString(event);  // JSON으로 직렬화
                     kafkaTemplate.send(topic, jsonEvent).get();
                     successCount.incrementAndGet();

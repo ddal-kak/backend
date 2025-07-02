@@ -2,11 +2,10 @@ package ddalkak.prize.eventhandler.impl;
 
 import ddalkak.prize.config.error.exception.OutOfStockException;
 import ddalkak.prize.dto.DecreaseResultEvent;
-import ddalkak.prize.dto.DecreaseStockEvent;
+import ddalkak.prize.dto.DrawWinEvent;
 import ddalkak.prize.eventhandler.DecreaseResult;
 import ddalkak.prize.eventhandler.EventHandler;
 import ddalkak.prize.eventhandler.eventpublisher.EventPublisher;
-import ddalkak.prize.eventhandler.eventpublisher.impl.KafkaPublisher;
 import ddalkak.prize.service.outbox.OutBoxService;
 import ddalkak.prize.service.prize.PrizeService;
 
@@ -31,7 +30,7 @@ public class KafkaEventHandler implements EventHandler {
      */
     @Override
     @Transactional
-    public void handleDecreaseStockEvent(DecreaseStockEvent event) {
+    public void handleDecreaseStockEvent(DrawWinEvent event) {
         log.info("Received event: eventId= {}, prizeId= {}", event.eventId(), event.prizeId());
         // 상품 재고 감소 처리
         try {

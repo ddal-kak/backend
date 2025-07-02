@@ -3,7 +3,7 @@ package ddalkak.prize.service.outbox.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.prize.domain.entity.Outbox;
 import ddalkak.prize.dto.DecreaseResultEvent;
-import ddalkak.prize.dto.DecreaseStockEvent;
+import ddalkak.prize.dto.DrawWinEvent;
 import ddalkak.prize.eventhandler.DecreaseResult;
 import ddalkak.prize.repository.outbox.OutboxRepository;
 import ddalkak.prize.service.outbox.OutBoxService;
@@ -21,7 +21,7 @@ public class OutboxServiceImpl implements OutBoxService {
     private final ObjectMapper objectMapper;
     @Override
     @Transactional
-    public Long save(DecreaseStockEvent event, DecreaseResult decreaseResult) {
+    public Long save(DrawWinEvent event, DecreaseResult decreaseResult) {
 
         DecreaseResultEvent decreaseResultEvent = new DecreaseResultEvent(
                 event.eventId(),

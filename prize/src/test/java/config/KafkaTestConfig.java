@@ -1,6 +1,6 @@
 package config;
 
-import ddalkak.prize.dto.DecreaseStockEvent;
+import ddalkak.prize.dto.DrawWinEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +11,6 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
-import org.springframework.kafka.test.EmbeddedKafkaBroker;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +23,12 @@ public class KafkaTestConfig {
 
 
     @Bean
-    public KafkaTemplate<String, DecreaseStockEvent> kafkaTemplate() {
+    public KafkaTemplate<String, DrawWinEvent> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
-    public ProducerFactory<String, DecreaseStockEvent> producerFactory() {
+    public ProducerFactory<String, DrawWinEvent> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerAddress);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

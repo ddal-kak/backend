@@ -1,9 +1,9 @@
 package ddalkak.prize.service.outbox;
 
-import ddalkak.prize.dto.DecreaseStockEvent;
+import ddalkak.prize.dto.DrawWinEvent;
 import ddalkak.prize.eventhandler.DecreaseResult;
 
 public interface OutBoxService {
-    Long save(DecreaseStockEvent event, DecreaseResult decreaseResult);
+    Long save(DrawWinEvent event, DecreaseResult decreaseResult);
     void markEventAsPublished(Long eventId);
 }

@@ -1,7 +1,7 @@
 package ddalkak.prize.config.kafka;
 
 
-import ddalkak.prize.dto.DecreaseStockEvent;
+import ddalkak.prize.dto.DrawWinEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,7 +24,7 @@ public class KafkaConsumerConfig {
     private String bootstrapAddress;// TODO: 환경변수로 설정
 
     @Bean
-    public ConsumerFactory<String, DecreaseStockEvent> consumerFactory() {
+    public ConsumerFactory<String, DrawWinEvent> consumerFactory() {
 
 
         Map<String, Object> props = new HashMap<>();
@@ -36,15 +36,15 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(
                 props,
                 new StringDeserializer(),
-               new JsonDeserializer<>(DecreaseStockEvent.class, false) // JSON 역직렬화
+               new JsonDeserializer<>(DrawWinEvent.class, false) // JSON 역직렬화
         );
     }
 
 
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, DecreaseStockEvent> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, DecreaseStockEvent> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, DrawWinEvent> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, DrawWinEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);

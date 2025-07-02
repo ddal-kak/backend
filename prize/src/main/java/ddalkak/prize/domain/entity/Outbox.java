@@ -1,6 +1,5 @@
 package ddalkak.prize.domain.entity;
 
-import ddalkak.prize.dto.DecreaseStockEvent;
 import jakarta.persistence.*;
 import lombok.Getter;
 
