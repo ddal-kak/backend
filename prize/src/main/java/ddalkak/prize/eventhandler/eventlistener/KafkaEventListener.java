@@ -14,7 +14,7 @@ public class KafkaEventListener {
     private final EventHandler eventHandler;
 
     @KafkaListener(
-            topics = "prize.decrease",
+            topics = "draw.win",
             groupId = "prize-service",
             containerFactory = "kafkaListenerContainerFactory"
     )

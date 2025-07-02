@@ -12,6 +12,6 @@ public class KafkaPublisher implements EventPublisher {
     private final KafkaTemplate<String, DecreaseResultEvent> kafkaTemplate;
     @Override
     public void publish(DecreaseResultEvent event) {
-        kafkaTemplate.send("decrease.result",event);
+        kafkaTemplate.send("prize.decrease_result",event);
     }
 }
