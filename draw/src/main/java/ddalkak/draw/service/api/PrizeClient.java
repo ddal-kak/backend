@@ -1,6 +1,6 @@
 package ddalkak.draw.service.api;
 
-import ddalkak.draw.domain.DrawProbability;
+import ddalkak.draw.domain.Prize;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,12 +20,12 @@ public class PrizeClient {
     private final WebClient webClient;
 
     @Cacheable(value = "probability", key = "#prizeId")
-    public DrawProbability fetch(final long prizeId) {
+    public Prize fetch(final long prizeId) {
         log.info("no cached, request origin server");
         return webClient.get()
                 .uri(generateGETUri(prizeId))
                 .retrieve()
-                .bodyToMono(DrawProbability.class)
+                .bodyToMono(Prize.class)
                 .block();
     }
 
