@@ -1,6 +1,6 @@
-package ddalkak.draw.service.core;
+package ddalkak.draw.service.event;
 
-import ddalkak.draw.dto.event.SignUpEvent;
+import ddalkak.draw.dto.event.LoginEvent;
 import ddalkak.draw.service.ticket.TicketService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,17 +11,18 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SignUpEventListener {
+public class LoginEventListener {
     private final TicketService ticketService;
 
     @KafkaListener(
-            groupId = "init-ticket",
-            topics = "member.signup",
-            containerFactory = "kafkaSignUpListenerContainerFactory"
+            groupId = "increase-ticket",
+            topics = "member.login",
+            containerFactory = "kafkaLoginListenerContainerFactory"
     )
-    public void handleEvent(SignUpEvent event, Acknowledgment ack) {
+    public void handleEvent(LoginEvent event, Acknowledgment ack) {
         log.info("eventId={}, memberId={}, time={}", event.eventId(), event.memberId(), event.occurAt());
-        ticketService.initTicket(event.memberId());
+        ticketService.rewardDailyLogin(event.memberId(), event.occurAt());
+        // 트랜잭션 예외 발생 시 offset 커밋하지 않음
         ack.acknowledge();
     }
 }

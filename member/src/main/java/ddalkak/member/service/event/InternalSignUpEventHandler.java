@@ -19,9 +19,9 @@ public class InternalSignUpEventHandler {
     private final ExternalEventPublisher externalEventPublisher;
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
-    public void saveEventOnOutbox(InternalSignUpEvent event) {
+    public void saveEventOnOutbox(InternalSignUpEvent internalEvent) {
         outboxService.saveEvent(
-                new ExternalEvent(event.eventId(), event.memberId(), event.occurAt()),
+                ExternalEvent.of(internalEvent),
                 EventType.SIGNUP);
     }
 
