@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 
 @Entity
-public class Draw {
+public class Draw extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,12 +22,12 @@ public class Draw {
     @Builder(access = AccessLevel.PRIVATE)
     private Draw(long memberId, long prizeId, String prizeName, DrawResult result) {
         this.memberId = memberId;
-        this.prizeId  = prizeId;
+        this.prizeId = prizeId;
         this.prizeName = prizeName;
-        this.result   = result;
+        this.result = result;
     }
 
-    public static Draw createPendingDraw(final long memberId, final long prizeId, final String prizeName) {
+    public static Draw createWinPendingDraw(final long memberId, final long prizeId, final String prizeName) {
         return Draw.builder()
                 .memberId(memberId)
                 .prizeId(prizeId)
@@ -43,5 +43,12 @@ public class Draw {
                 .prizeName(prizeName)
                 .result(DrawResult.LOSE)
                 .build();
+    }
+
+    public boolean isWinPending() {
+        if (this.result == DrawResult.PENDING) {
+            return true;
+        }
+        return false;
     }
 }
