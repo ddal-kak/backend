@@ -14,7 +14,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create  # 데이터베이스 테이블 자동 생성 전략 (옵션: none, validate, update, create-drop)
+      ddl-auto: update  # 데이터베이스 테이블 자동 생성 전략 (옵션: none, validate, update, create-drop)
     show-sql: true       # Hibernate SQL 출력 여부
     properties:
         hibernate.format_sql: true  # SQL 출력 포맷팅

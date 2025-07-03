@@ -1,5 +1,6 @@
 package ddalkak.prize.service.outbox.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.prize.domain.entity.Outbox;
 import ddalkak.prize.dto.DecreaseResultEvent;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -47,5 +50,21 @@ public class OutboxServiceImpl implements OutBoxService {
                 .orElseThrow();
         outbox.markAsPublished();
         log.info("Event marked as published: eventId= {}", eventId);
+    }
+    @Override
+    @Transactional
+    public List<DecreaseResultEvent> pollUnpublishedEvents() {
+       return outboxRepository.findUnpublishedEvent().stream()
+                .map(this::mapToDecreaseResultEvent)
+                .toList();
+
+    }
+    private DecreaseResultEvent mapToDecreaseResultEvent(Outbox outbox) {
+        try {
+           return objectMapper.readValue(outbox.getPayload(), DecreaseResultEvent.class);
+        } catch (JsonProcessingException e) {
+            log.error("Error mapping Outbox payload to DecreaseResultEvent", e);
+            throw new RuntimeException(e);
+        }
     }
 }

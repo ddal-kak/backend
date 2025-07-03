@@ -6,6 +6,7 @@ import ddalkak.prize.repository.outbox.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,5 +21,8 @@ public class OutboxRepositoryImpl implements OutboxRepository {
     public Optional<Outbox> findByEventId(Long eventId) {
         return outboxJpaRepository.findByEventId(eventId);
     }
-
+    @Override
+    public List<Outbox> findUnpublishedEvent() {
+        return outboxJpaRepository.findUnpublishedEventSizeOf(100);
+    }
 }
