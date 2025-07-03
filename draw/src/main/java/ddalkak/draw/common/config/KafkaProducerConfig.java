@@ -1,6 +1,7 @@
 package ddalkak.draw.common.config;
 
 import ddalkak.draw.dto.event.DrawWinEvent;
+import ddalkak.draw.dto.event.ExternalEvent;
 import ddalkak.draw.service.event.KafkaProducerListener;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -24,7 +25,7 @@ public class KafkaProducerConfig {
     private final KafkaProducerListener kafkaProducerListener;
 
     @Bean
-    public ProducerFactory<String, DrawWinEvent> producerFactory() {
+    public ProducerFactory<String, ExternalEvent> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -33,8 +34,8 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, DrawWinEvent> kafkaTemplate() {
-        KafkaTemplate<String, DrawWinEvent> kafkaTemplate = new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, ExternalEvent> kafkaTemplate() {
+        KafkaTemplate<String, ExternalEvent> kafkaTemplate = new KafkaTemplate<>(producerFactory());
         kafkaTemplate.setProducerListener(kafkaProducerListener);
         return kafkaTemplate;
     }
