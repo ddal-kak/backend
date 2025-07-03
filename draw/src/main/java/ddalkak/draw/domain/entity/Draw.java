@@ -4,8 +4,10 @@ import ddalkak.draw.domain.DrawResult;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Draw extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,5 +52,9 @@ public class Draw extends BaseEntity {
             return true;
         }
         return false;
+    }
+
+    public void setResult(DrawResult result) {
+        this.result = result;
     }
 }
