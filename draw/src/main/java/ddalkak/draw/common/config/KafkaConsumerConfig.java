@@ -1,5 +1,6 @@
 package ddalkak.draw.common.config;
 
+import ddalkak.draw.dto.event.DecreaseStockEvent;
 import ddalkak.draw.dto.event.LoginEvent;
 import ddalkak.draw.dto.event.SignUpEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -71,5 +72,23 @@ public class KafkaConsumerConfig {
         configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         return configProps;
+    }
+
+    // 경품 재고 감소 이벤트 처리용 컨슈머 팩토리 설정
+    @Bean
+    public ConsumerFactory<String, DecreaseStockEvent> decreaseResultConsumeFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+                generateDefaultConsumerConfig(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(DecreaseStockEvent.class, false)
+        );
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, DecreaseStockEvent> kafkaDecreaseResultListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, DecreaseStockEvent> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(decreaseResultConsumeFactory());
+        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
+        return factory;
     }
 }

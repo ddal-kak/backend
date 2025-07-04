@@ -1,5 +1,6 @@
 package ddalkak.draw.service.core;
 
+import ddalkak.draw.domain.DrawResult;
 import ddalkak.draw.domain.entity.Draw;
 import ddalkak.draw.dto.event.DrawWinEvent;
 import ddalkak.draw.repository.draw.DrawRepository;
@@ -24,7 +25,14 @@ public class DrawService {
         drawRepository.save(draw);
 
         if (draw.isWinPending()) {
-            applicationEventPublisher.publishEvent(DrawWinEvent.of(idGenerator.generate(), prizeId));
+            applicationEventPublisher.publishEvent(DrawWinEvent.of(idGenerator.generate(), draw.getId(), prizeId));
         }
+    }
+
+    @Transactional
+    public void finalizeDrawResult(final long drawId, final DrawResult result) {
+        Draw draw = drawRepository.findById(drawId)
+                .orElseThrow();
+        draw.setResult(result);
     }
 }
