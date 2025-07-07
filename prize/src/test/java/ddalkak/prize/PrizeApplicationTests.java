@@ -1,8 +1,8 @@
 package ddalkak.prize;
 
-import ddalkak.prize.dto.PrizeResponseDto;
-import ddalkak.prize.dto.PrizeSaveRequestDto;
-import ddalkak.prize.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.dto.response.PrizeResponseDto;
+import ddalkak.prize.dto.request.PrizeSaveRequestDto;
+import ddalkak.prize.dto.request.PrizeUpdateRequestDto;
 import ddalkak.prize.repository.prize.PrizeRepository;
 import ddalkak.prize.service.prize.PrizeService;
 import lombok.extern.slf4j.Slf4j;

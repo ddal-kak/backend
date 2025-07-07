@@ -1,6 +1,6 @@
 package ddalkak.prize.eventhandler.eventpublisher;
 
-import ddalkak.prize.dto.DecreaseResultEvent;
+import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.service.outbox.OutBoxService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

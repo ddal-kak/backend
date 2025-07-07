@@ -1,8 +1,7 @@
 package ddalkak.prize.service.outbox;
 
-import ddalkak.prize.dto.DecreaseResultEvent;
+import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.eventhandler.eventpublisher.EventPublisher;
-import ddalkak.prize.eventhandler.eventpublisher.impl.KafkaPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;

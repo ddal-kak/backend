@@ -1,6 +1,6 @@
 package ddalkak.prize.eventhandler.eventlistener;
 
-import ddalkak.prize.dto.DrawWinEvent;
+import ddalkak.prize.dto.event.DrawWinEvent;
 import ddalkak.prize.eventhandler.EventHandler;
 
 import lombok.RequiredArgsConstructor;

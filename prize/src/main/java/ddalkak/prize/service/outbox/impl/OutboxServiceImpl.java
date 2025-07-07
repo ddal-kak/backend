@@ -2,13 +2,16 @@ package ddalkak.prize.service.outbox.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ddalkak.prize.domain.entity.EventType;
 import ddalkak.prize.domain.entity.Outbox;
-import ddalkak.prize.dto.DecreaseResultEvent;
-import ddalkak.prize.dto.DrawWinEvent;
+import ddalkak.prize.dto.event.DecreaseResultEvent;
+import ddalkak.prize.dto.event.DrawWinEvent;
+import ddalkak.prize.dto.event.ExternalEvent;
 import ddalkak.prize.eventhandler.DecreaseResult;
 import ddalkak.prize.repository.outbox.OutboxRepository;
 import ddalkak.prize.service.outbox.OutBoxService;
 
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,27 +25,23 @@ import java.util.List;
 public class OutboxServiceImpl implements OutBoxService {
     private final OutboxRepository outboxRepository;
     private final ObjectMapper objectMapper;
+
     @Override
     @Transactional
-    public Long save(DrawWinEvent event, DecreaseResult decreaseResult) {
+    public Long save(ExternalEvent event, EventType eventType) {
 
-        DecreaseResultEvent decreaseResultEvent = new DecreaseResultEvent(
-                event.eventId(),
-                event.prizeId(),
-                decreaseResult
-        );
-        String payload = null;
-        try {
-            payload = objectMapper.writeValueAsString(decreaseResultEvent);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Error while converting event to JSON");
-        }
-       Outbox savedOutbox = outboxRepository.save(new Outbox(event.eventId(), payload));
+        String payload = serialize(event);
+        Outbox outbox = new Outbox(event.eventId(), payload, eventType);
+        log.info("Saving event to outbox: {}" ,outbox.toString());
+        Outbox savedOutbox = outboxRepository.save(new Outbox(event.eventId(), payload, eventType));
 
         return savedOutbox.getId();
 
 
     }
+
+
+
     @Override
     @Transactional
     public void markEventAsPublished(Long eventId) {
@@ -67,4 +66,14 @@ public class OutboxServiceImpl implements OutBoxService {
             throw new RuntimeException(e);
         }
     }
+    private String serialize(ExternalEvent event) {
+        String payload = null;
+        try {
+            payload = objectMapper.writeValueAsString(event);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while converting event to JSON");
+        }
+        return payload;
+    }
 }
+

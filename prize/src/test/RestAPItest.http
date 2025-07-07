@@ -6,7 +6,7 @@ Content-Type: application/json
 	 "name": "Test Prize",
 	"quantity" : 10,
 	"price" : 100,
-	"probabilityRange" :1
+	"probabilityRange" :100
 
 }
 ###

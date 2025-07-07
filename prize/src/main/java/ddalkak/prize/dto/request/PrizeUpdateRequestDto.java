@@ -1,4 +1,4 @@
-package ddalkak.prize.dto;
+package ddalkak.prize.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

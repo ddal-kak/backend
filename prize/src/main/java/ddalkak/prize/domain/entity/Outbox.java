@@ -17,10 +17,10 @@ public class Outbox extends BaseEntity {
     @Column(columnDefinition = "JSON")
     private String payload;
 
-    public Outbox(Long eventId, String payload) {
+    public Outbox(Long eventId, String payload, EventType eventType) {
         this.eventId = eventId;
         this.status = EventStatus.READY_TO_PUBLISH;
-        this.type = EventType.DECREASE_STOCK;
+        this.type = eventType;
         this.payload = payload;
     }
 

@@ -2,8 +2,8 @@ package ddalkak.prize.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.prize.config.error.ErrorCode;
-import ddalkak.prize.dto.PrizeResponseDto;
-import ddalkak.prize.dto.PrizeSaveRequestDto;
+import ddalkak.prize.dto.response.PrizeResponseDto;
+import ddalkak.prize.dto.request.PrizeSaveRequestDto;
 import ddalkak.prize.service.prize.PrizeService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

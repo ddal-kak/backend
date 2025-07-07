@@ -1,6 +1,6 @@
 package config;
 
-import ddalkak.prize.dto.DrawWinEvent;
+import ddalkak.prize.dto.event.DrawWinEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
