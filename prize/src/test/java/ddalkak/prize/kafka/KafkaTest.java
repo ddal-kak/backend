@@ -1,10 +1,10 @@
 package ddalkak.prize.kafka;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ddalkak.prize.dto.DecreaseStockEvent;
-import ddalkak.prize.dto.PrizeResponseDto;
-import ddalkak.prize.dto.PrizeSaveRequestDto;
+import ddalkak.prize.dto.event.DrawWinEvent;
+import java.time.Instant;
+import ddalkak.prize.dto.response.PrizeResponseDto;
+import ddalkak.prize.dto.request.PrizeSaveRequestDto;
 import ddalkak.prize.service.prize.PrizeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
         topics = "prize.decrease")
 class KafkaTest {
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;  // String으로 변경
+    private KafkaTemplate<String, DrawWinEvent> kafkaTemplate;
 
     @Autowired
     private PrizeService prizeService;
@@ -61,9 +61,9 @@ class KafkaTest {
         for (int i = 0; i < numberOfRequests; i++) {
             executorService.submit(() -> {
                 try {
-                    DecreaseStockEvent event = new DecreaseStockEvent(1L, prizeId);
+                    DrawWinEvent event = new DrawWinEvent(1L, prizeId, 1L,Instant.now());
                     String jsonEvent = objectMapper.writeValueAsString(event);  // JSON으로 직렬화
-                    kafkaTemplate.send(topic, jsonEvent).get();
+                    kafkaTemplate.send(topic, event).get();
                     successCount.incrementAndGet();
                 } catch (Exception e) {
                     e.printStackTrace();

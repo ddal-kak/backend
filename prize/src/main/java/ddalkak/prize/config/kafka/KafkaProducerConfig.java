@@ -1,6 +1,6 @@
 package ddalkak.prize.config.kafka;
 
-import ddalkak.prize.dto.DecreaseResultEvent;
+import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.eventhandler.eventpublisher.KafkaProducerListener;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

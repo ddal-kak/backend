@@ -1,6 +1,6 @@
 package ddalkak.prize.eventhandler.eventpublisher.impl;
 
-import ddalkak.prize.dto.DecreaseResultEvent;
+import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.eventhandler.eventpublisher.EventPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -12,6 +12,6 @@ public class KafkaPublisher implements EventPublisher {
     private final KafkaTemplate<String, DecreaseResultEvent> kafkaTemplate;
     @Override
     public void publish(DecreaseResultEvent event) {
-        kafkaTemplate.send("decrease.result",event);
+        kafkaTemplate.send("prize.decrease-result",event);
     }
 }

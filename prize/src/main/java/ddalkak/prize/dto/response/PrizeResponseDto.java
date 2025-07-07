@@ -1,4 +1,4 @@
-package ddalkak.prize.dto;
+package ddalkak.prize.dto.response;
 
 import ddalkak.prize.domain.entity.Prize;
 
