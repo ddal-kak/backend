@@ -1,8 +1,7 @@
-package ddalkak.draw.service.core;
+package ddalkak.draw.service.event;
 
 import ddalkak.draw.domain.EventType;
 import ddalkak.draw.dto.event.DrawWinEvent;
-import ddalkak.draw.service.event.ExternalEventPublisher;
 import ddalkak.draw.service.outbox.OutboxService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
