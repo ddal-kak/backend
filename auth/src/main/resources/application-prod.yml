@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: auth
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/auth_prod/
