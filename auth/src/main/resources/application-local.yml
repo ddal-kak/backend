@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: auth
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/auth_local/
