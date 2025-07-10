@@ -4,12 +4,12 @@ spring:
   config:
     activate:
       on-profile: local
-      import: aws-parameterstore:/config/auth_local/
+    import: aws-parameterstore:/config/auth_local/
   cloud:
-      function:
-         definition: lambdaEventListener
+    function:
+      definition: lambdaEventListener
 logging:
   level:
     root: INFO
 jwt:
-  public-key: ${jwt_public_key}
+  public_key: ${jwt_public_key}

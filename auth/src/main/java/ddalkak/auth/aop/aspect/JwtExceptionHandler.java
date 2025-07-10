@@ -1,17 +1,15 @@
 package ddalkak.auth.aop.aspect;
 
+import ddalkak.auth.common.exception.RoleMismatchException;
+import ddalkak.auth.dto.response.ApiGatewayLambdaResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 @Aspect
@@ -23,35 +21,19 @@ public class JwtExceptionHandler {
             return joinPoint.proceed();
         } catch (SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
-            return ErrorResponse.of("INVALID");
+            return ApiGatewayLambdaResponse.errorOf("INVALID");
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
-            return ErrorResponse.of("EXPIRED");
+            return ApiGatewayLambdaResponse.errorOf("EXPIRED");
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
-            return ErrorResponse.of("UNSUPPORTED");
+            return ApiGatewayLambdaResponse.errorOf("UNSUPPORTED");
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
-            return ErrorResponse.of("EMPTY_CLAIM");
-        }
-    }
-
-    @Builder
-    static class ErrorResponse {
-        private boolean isAuthorized;
-        private Map<String, Object> context;
-
-        public static ErrorResponse of(String message) {
-            ErrorResponse response = ErrorResponse.builder()
-                    .isAuthorized(false)
-                    .context(new HashMap<>())
-                    .build();
-            response.addErrorMessage(message);
-            return response;
-        }
-
-        private void addErrorMessage(String message) {
-            this.context.put("message", message);
+            return ApiGatewayLambdaResponse.errorOf("EMPTY_CLAIM");
+        } catch (RoleMismatchException e) {
+            log.info("Unauthorized User Role", e);
+            return ApiGatewayLambdaResponse.errorOf("MISMATCH_ROLE");
         }
     }
 }
