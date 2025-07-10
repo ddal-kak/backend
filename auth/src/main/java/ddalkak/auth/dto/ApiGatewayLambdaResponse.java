@@ -1,4 +1,4 @@
-package ddalkak.auth.dto.response;
+package ddalkak.auth.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,6 +18,15 @@ public class ApiGatewayLambdaResponse {
         this.context = context;
     }
 
+    public static ApiGatewayLambdaResponse successOf(Long memberId) {
+        ApiGatewayLambdaResponse response = ApiGatewayLambdaResponse.builder()
+                .isAuthorized(true)
+                .context(new HashMap<>())
+                .build();
+        response.addMemberId(memberId);
+        return response;
+    }
+
     public static ApiGatewayLambdaResponse errorOf(String message) {
         ApiGatewayLambdaResponse response = ApiGatewayLambdaResponse.builder()
                 .isAuthorized(false)
@@ -27,16 +36,12 @@ public class ApiGatewayLambdaResponse {
         return response;
     }
 
-    public ApiGatewayLambdaResponse(boolean isAuthorized) {
-        this.isAuthorized = isAuthorized;
-        context = new HashMap<>();
-    }
-
-    public void addContext(String key, Object value) {
-        context.put(key, value);
-    }
 
     private void addErrorMessage(String message) {
         this.context.put("message", message);
+    }
+
+    private void addMemberId(Long memberId) {
+        this.context.put("memberId", memberId);
     }
 }

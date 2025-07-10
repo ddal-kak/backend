@@ -1,7 +1,7 @@
 package ddalkak.auth.aop.aspect;
 
 import ddalkak.auth.common.exception.RoleMismatchException;
-import ddalkak.auth.dto.response.ApiGatewayLambdaResponse;
+import ddalkak.auth.dto.ApiGatewayLambdaResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 @Slf4j
-public class JwtExceptionHandler {
-    @Around("@annotation(ddalkak.auth.aop.annotation.ExceptionHandler)")
+public class GlobalExceptionHandler {
+    @Around("@annotation(ddalkak.auth.aop.annotation.ExceptionCatcher)")
     public Object handleException(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             return joinPoint.proceed();
