@@ -1,5 +1,6 @@
 package ddalkak.auth.aop.aspect;
 
+import ddalkak.auth.common.exception.OwnerMismatchException;
 import ddalkak.auth.common.exception.RoleMismatchException;
 import ddalkak.auth.dto.ApiGatewayLambdaResponse;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -34,6 +35,9 @@ public class GlobalExceptionHandler {
         } catch (RoleMismatchException e) {
             log.info("Unauthorized User Role", e);
             return ApiGatewayLambdaResponse.errorOf("MISMATCH_ROLE");
+        } catch (OwnerMismatchException e) {
+            log.info("Is Not Owner", e);
+            return ApiGatewayLambdaResponse.errorOf("MISMATCH_OWNER");
         }
     }
 }
