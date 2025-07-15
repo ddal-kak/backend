@@ -2,6 +2,7 @@ package ddalkak.member.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.member.domain.CustomUserDetails;
+import ddalkak.member.domain.JwtConstants;
 import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.event.InternalLoginEvent;
 import ddalkak.member.dto.jwt.Jwt;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.server.Cookie;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,7 +26,6 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.io.IOException;
-import java.time.Duration;
 
 @RequiredArgsConstructor
 @Component
@@ -72,8 +73,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private void setLoginSuccessResponse(HttpServletResponse response, Member loginMember, Jwt jwt) {
-        response.setHeader(HttpHeaders.AUTHORIZATION, jwt.generateFullAccessTokenInfo());
-        response.setHeader(HttpHeaders.SET_COOKIE, createRefreshTokenCookie(jwt));
+        response.addHeader(HttpHeaders.SET_COOKIE, createCookie(jwt.accessToken(), JwtConstants.ACCESS_TOKEN));
+        response.addHeader(HttpHeaders.SET_COOKIE, createCookie(jwt.refreshToken(), JwtConstants.REFRESH_TOKEN));
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         try {
@@ -87,12 +88,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         return jwtProvider.valueOf(RequiredClaims.of(loginMember));
     }
 
-    private String createRefreshTokenCookie(Jwt jwt) {
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", jwt.refreshToken())
+    private String createCookie(String token, JwtConstants constant) {
+        ResponseCookie cookie = ResponseCookie.from(constant.getKey(), token)
                 .httpOnly(true)
                 .secure(true)
+                .sameSite(Cookie.SameSite.LAX.name())
                 .path("/")
-                .maxAge(Duration.ofDays(14))
+                .maxAge(constant.getDuration())
                 .build();
         return cookie.toString();
     }
