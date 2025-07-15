@@ -2,11 +2,13 @@ package ddalkak.auth.validator;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import ddalkak.auth.common.service.JwtService;
+import ddalkak.auth.dto.ApiGatewayLambdaResponse;
 import ddalkak.auth.dto.HttpRequestSignature;
 import ddalkak.auth.dto.UserContext;
-import ddalkak.auth.dto.ApiGatewayLambdaResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import static ddalkak.auth.enums.MicroServicesConstants.PRIZE_SERVICE;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class AdminValidator implements Validator {
          */
         String path = httpRequestSignature.path();
         String httpMethod = httpRequestSignature.httpMethod();
-        return path.startsWith("/prize") && (httpMethod.equals("POST") || httpMethod.equals("PATCH"));
+        return path.startsWith(PRIZE_SERVICE.getPrefix()) && (httpMethod.equals("POST") || httpMethod.equals("PATCH"));
     }
 
     @Override
