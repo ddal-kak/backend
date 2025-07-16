@@ -52,6 +52,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+	// actuator (health check 용도)
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
 	// 테스트용 임베디드 h2
 	testRuntimeOnly 'com.h2database:h2'
 
