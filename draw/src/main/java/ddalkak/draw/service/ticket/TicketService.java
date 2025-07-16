@@ -1,6 +1,7 @@
 package ddalkak.draw.service.ticket;
 
 import ddalkak.draw.domain.entity.Ticket;
+import ddalkak.draw.dto.response.TicketResponse;
 import ddalkak.draw.repository.ticket.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,14 @@ public class TicketService {
         Ticket ticket = ticketRepository.findByMemberId(memberId)
                 .orElseThrow();
         ticket.rewardDailyLogin(toLocalDate(loginAt));
+    }
+
+    @Transactional(readOnly = true)
+    public TicketResponse findTicket(final long memberId) {
+        return TicketResponse.of(
+                ticketRepository.findByMemberId(memberId)
+                        .orElseThrow()
+        );
     }
 
     private LocalDate toLocalDate(Instant instant) {
