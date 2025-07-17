@@ -4,7 +4,6 @@ import ddalkak.prize.domain.entity.Prize;
 import ddalkak.prize.repository.prize.PrizeJpaRepository;
 import ddalkak.prize.repository.prize.PrizeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -23,8 +22,8 @@ public class PrizeRepositoryImpl implements PrizeRepository {
     }
 
     @Override
-    public Page<Prize> findAllByIdDesc(Pageable pageable) {
-        return prizeJpaRepository.findByQuantityGreaterThanOrderByIdDesc(0 , pageable);
+    public Page<Prize> findAllByIdDesc(Long lastId,Pageable pageable) {
+        return prizeJpaRepository.findByIdLessThanAndQuantityGreaterThanOrderByIdDesc(lastId ,0 , pageable);
     }
 
     @Override
