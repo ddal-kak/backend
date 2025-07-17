@@ -15,4 +15,5 @@ public record PrizeUpdateRequestDto(
         @Positive
         Integer price
 ) {
+
 }

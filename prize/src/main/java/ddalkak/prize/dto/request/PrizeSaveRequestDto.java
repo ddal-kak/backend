@@ -1,6 +1,8 @@
 package ddalkak.prize.dto.request;
 
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,6 +19,9 @@ public record PrizeSaveRequestDto(
         @PositiveOrZero@NotNull
         Integer price,
         @Positive@NotNull
-        Long probabilityRange
+        Long probabilityRange,
+        @NotNull
+        String imageUrl,
+        String description
 
 ){ }
