@@ -5,3 +5,23 @@ spring:
     activate:
       on-profile: prod
     import: aws-parameterstore:/config/member_prod/
+  datasource:
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    producer:
+      bootstrap-servers:
+    template:
+      default-topic: login
+jwt:
+  private_key: ${jwt_private_key}

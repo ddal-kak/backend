@@ -3,6 +3,7 @@ package ddalkak.draw.service.core;
 import ddalkak.draw.domain.DrawResult;
 import ddalkak.draw.domain.entity.Draw;
 import ddalkak.draw.dto.event.DrawWinEvent;
+import ddalkak.draw.dto.response.DrawResultResponse;
 import ddalkak.draw.repository.draw.DrawRepository;
 import ddalkak.draw.service.event.UniqueIdGenerator;
 import ddalkak.draw.service.ticket.TicketService;
@@ -10,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +42,13 @@ public class DrawService {
         Draw draw = drawRepository.findById(drawId)
                 .orElseThrow();
         draw.setResult(result);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DrawResultResponse> findDrawResult(final long memberId) {
+        return drawRepository.findAllByMemberId(memberId)
+                .stream()
+                .map(draw -> DrawResultResponse.of(draw))
+                .collect(Collectors.toList());
     }
 }
