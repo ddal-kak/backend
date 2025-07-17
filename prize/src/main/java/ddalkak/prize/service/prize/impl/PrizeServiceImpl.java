@@ -58,12 +58,22 @@ public class PrizeServiceImpl implements PrizeService {
     @Override
     public PageResponseDto getPrizePage(int size, Long lastId) {
         Pageable pageable = Pageable.ofSize(size + 1);
+        // 처음 요청은 가장 큰 id 부터
+        if (lastId == null) {
+            List<PrizeResponseDto> resultPage = prizeRepository.findAllByIdDesc(pageable)
+                    .map(prize -> PrizeResponseDto.of(prize))
+                    .getContent();
+            boolean hasNext = resultPage.size() == size + 1;
+            return PageResponseDto.of(
+                    resultPage.stream()
+                            .limit(size)
+                            .collect(Collectors.toList()),
+                    hasNext);
+        }
         List<PrizeResponseDto> resultPage = prizeRepository.findAllByIdDesc(lastId, pageable)
                 .map(prize -> PrizeResponseDto.of(prize))
                 .getContent();
         boolean hasNext = resultPage.size() == size + 1;
-
-
         return PageResponseDto.of(
                 resultPage.stream()
                         .limit(size)
