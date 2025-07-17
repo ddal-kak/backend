@@ -25,10 +25,15 @@ public class PrizeRepositoryImpl implements PrizeRepository {
     public Page<Prize> findAllByIdDesc(Long lastId,Pageable pageable) {
         return prizeJpaRepository.findByIdLessThanAndQuantityGreaterThanOrderByIdDesc(lastId ,0 , pageable);
     }
+    @Override
+    public Page<Prize> findAllByIdDesc(Pageable pageable) {
+        return prizeJpaRepository.findByQuantityGreaterThanOrderByIdDesc(0 , pageable);
+    }
 
     @Override
     public Optional<Prize> findById(Long id) {
         return prizeJpaRepository.findById(id);
     }
+
 
 }

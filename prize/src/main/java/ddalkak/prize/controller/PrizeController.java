@@ -12,6 +12,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class PrizeController {
     @GetMapping
     public ResponseEntity<PageResponseDto> getPrizePage (
         @Positive(message = "요청 데이터수는 1개 이상이어야 합니다.") @RequestParam(defaultValue = "5") int size,
-        @RequestParam Long lastId
+        @RequestParam @Nullable Long lastId
     )
     {
         return ResponseEntity.ok(prizeService.getPrizePage(size, lastId));

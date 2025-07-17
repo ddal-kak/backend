@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -54,16 +55,12 @@ public class PrizeServiceImpl implements PrizeService {
      * @return 상품 응답 DTO 페이지
      * @throws PageOutOfBoundsException 페이지 번호가 범위를 벗어난 경우
      */
-
     @Override
+    @Transactional(readOnly = true)
     public PageResponseDto getPrizePage(int size, Long lastId) {
         Pageable pageable = Pageable.ofSize(size + 1);
-        List<PrizeResponseDto> resultPage = prizeRepository.findAllByIdDesc(lastId, pageable)
-                .map(prize -> PrizeResponseDto.of(prize))
-                .getContent();
+        List<PrizeResponseDto> resultPage = getResultPage(lastId, pageable);
         boolean hasNext = resultPage.size() == size + 1;
-
-
         return PageResponseDto.of(
                 resultPage.stream()
                         .limit(size)
@@ -125,6 +122,17 @@ public class PrizeServiceImpl implements PrizeService {
             prize.update(null, prize.getQuantity() - 1, null);
         }
 
+    }
+
+    private List<PrizeResponseDto> getResultPage(Long lastId, Pageable pageable) {
+        if (lastId == null) {
+            return prizeRepository.findAllByIdDesc(pageable)
+                    .map(prize -> PrizeResponseDto.of(prize))
+                    .getContent();
+        }
+        return prizeRepository.findAllByIdDesc(lastId, pageable)
+                .map(prize -> PrizeResponseDto.of(prize))
+                .getContent();
     }
 
 }

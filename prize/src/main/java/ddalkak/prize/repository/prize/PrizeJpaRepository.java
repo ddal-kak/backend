@@ -9,5 +9,7 @@ import java.util.Optional;
 
 public interface PrizeJpaRepository extends JpaRepository<Prize, Long> {
     Page<Prize> findByIdLessThanAndQuantityGreaterThanOrderByIdDesc(Long lastId, Integer quantity, Pageable pageable);
+    Page<Prize> findByQuantityGreaterThanOrderByIdDesc(Integer quantity, Pageable pageable);
     Optional<Prize> findById(Long id);
+
 }
