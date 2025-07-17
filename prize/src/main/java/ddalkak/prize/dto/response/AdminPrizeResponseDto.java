@@ -5,24 +5,28 @@ import lombok.AccessLevel;
 import lombok.Builder;
 
 @Builder(access = AccessLevel.PRIVATE)
-public record PrizeResponseDto(
-
-        long id,
+public record AdminPrizeResponseDto(
+        Long id,
         String name,
         String description,
         String imageUrl,
         Integer quantity,
-        Long probabilityRange
-
+        Integer price,
+        Long probabilityRange,
+        Long randomNumber
 ) {
-    public static PrizeResponseDto of(Prize prize){
-        return PrizeResponseDto.builder()
+    public static AdminPrizeResponseDto of(Prize prize) {
+        return AdminPrizeResponseDto.builder()
                 .id(prize.getId())
                 .name(prize.getName())
                 .description(prize.getDescription())
                 .imageUrl(prize.getImageUrl())
                 .quantity(prize.getQuantity())
+                .price(prize.getPrice())
                 .probabilityRange(prize.getProbabilityRange())
+                .randomNumber(prize.getRandomNumber())
                 .build();
+
     }
+
 }
