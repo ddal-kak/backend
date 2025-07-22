@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: presigned-url
+  config:
+    activate:
+      on-profile: prod
+    import: aws-parameterstore:/config/presigned-url_prod/

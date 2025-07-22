@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: presigned-url
+  config:
+    activate:
+      on-profile: local
+    import: aws-parameterstore:/config/presigned-url_local/
+  cloud:
+    function:
+      definition: lambdaEventListener
+    aws:
+      s3:
+        bucket: ddalkak
+logging:
+  level:
+    root: INFO
