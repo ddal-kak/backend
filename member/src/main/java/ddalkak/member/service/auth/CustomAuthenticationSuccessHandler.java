@@ -27,6 +27,8 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import java.io.IOException;
 
+import static ddalkak.member.domain.JwtConstants.*;
+
 @RequiredArgsConstructor
 @Component
 @Slf4j
@@ -73,8 +75,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private void setLoginSuccessResponse(HttpServletResponse response, Member loginMember, Jwt jwt) {
-        response.addHeader(HttpHeaders.SET_COOKIE, createCookie(jwt.accessToken(), JwtConstants.ACCESS_TOKEN));
-        response.addHeader(HttpHeaders.SET_COOKIE, createCookie(jwt.refreshToken(), JwtConstants.REFRESH_TOKEN));
+        response.addHeader(ACCESS_TOKEN.getHttpHeader(), createCookie(jwt.accessToken(), ACCESS_TOKEN));
+        response.addHeader(REFRESH_TOKEN.getHttpHeader(), createCookie(jwt.refreshToken(), REFRESH_TOKEN));
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
         try {
