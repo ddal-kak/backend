@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 
+import static ddalkak.member.domain.JwtConstants.*;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -30,8 +32,8 @@ public class AuthController {
     public ResponseEntity<Void> refreshLogin(@CookieValue(value = "refreshToken") final String refreshToken) {
         Jwt newJwt = authService.refreshLogin(refreshToken);
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, createCookie(newJwt.accessToken(), JwtConstants.ACCESS_TOKEN))
-                .header(HttpHeaders.SET_COOKIE, createCookie(newJwt.refreshToken(), JwtConstants.REFRESH_TOKEN))
+                .header(ACCESS_TOKEN.getHttpHeader(), createCookie(newJwt.accessToken(), ACCESS_TOKEN))
+                .header(REFRESH_TOKEN.getHttpHeader(), createCookie(newJwt.refreshToken(), REFRESH_TOKEN))
                 .build();
     }
 
