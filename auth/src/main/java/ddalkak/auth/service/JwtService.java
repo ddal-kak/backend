@@ -1,4 +1,4 @@
-package ddalkak.auth.common.service;
+package ddalkak.auth.service;
 
 import ddalkak.auth.common.exception.RoleMismatchException;
 import ddalkak.auth.dto.UserContext;

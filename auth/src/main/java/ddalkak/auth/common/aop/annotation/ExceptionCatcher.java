@@ -1,4 +1,4 @@
-package ddalkak.auth.aop.annotation;
+package ddalkak.auth.common.aop.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

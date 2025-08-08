@@ -1,10 +1,10 @@
-package ddalkak.auth.validator;
+package ddalkak.auth.service.validator;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import ddalkak.auth.common.exception.OwnerMismatchException;
-import ddalkak.auth.dto.ApiGatewayLambdaResponse;
 import ddalkak.auth.dto.HttpRequestSignature;
 import ddalkak.auth.dto.UserContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -13,6 +13,7 @@ import static ddalkak.auth.enums.MicroServicesConstants.MEMBER_SERVICE;
 import static ddalkak.auth.enums.MicroServicesConstants.TICKET_SERVICE;
 
 @Component
+@Slf4j
 public class OwnerCheckValidator implements Validator {
 
     @Override
@@ -28,7 +29,7 @@ public class OwnerCheckValidator implements Validator {
     }
 
     @Override
-    public ApiGatewayLambdaResponse execute(APIGatewayV2HTTPEvent event, UserContext userContext) {
+    public void execute(APIGatewayV2HTTPEvent event, UserContext userContext) {
         /**
          * 1. event => 요청한 memberId 추출
          * 2. UserContext 에서 실제 memberId 추출
@@ -37,10 +38,9 @@ public class OwnerCheckValidator implements Validator {
         Long targetMemberId = extractAuthorizationTargetId(event);
         Long myMemberId = userContext.getMemberId();
 
-        if (targetMemberId == myMemberId) {
-            return ApiGatewayLambdaResponse.successOf(myMemberId);
+        if (targetMemberId != myMemberId) {
+            throw new OwnerMismatchException("you are not owner of this resource");
         }
-        throw new OwnerMismatchException("you are not owner of this resource");
     }
 
     private static boolean isSupportedPath(String path, String httpMethod) {
@@ -53,6 +53,7 @@ public class OwnerCheckValidator implements Validator {
     }
 
     private static Long extractAuthorizationTargetId(APIGatewayV2HTTPEvent event) {
+        log.info("start owner check validation");
         String rawPath = event.getRawPath();
         return Arrays.stream(rawPath.split("/"))
                 .filter(element -> element.matches("\\d+")) //숫자만 필터링

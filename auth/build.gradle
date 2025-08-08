@@ -38,8 +38,6 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // AWS Lambda
-    implementation 'org.springframework.cloud:spring-cloud-function-adapter-aws:4.1.0'
-    implementation 'org.springframework.cloud:spring-cloud-starter-function-web:4.1.0'
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
     implementation 'com.amazonaws:aws-lambda-java-events:3.14.0'
 
