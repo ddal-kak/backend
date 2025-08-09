@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/prizes")
+@RequestMapping("/api/prizes")
 @RequiredArgsConstructor
 @Validated
 public class PrizeController {
