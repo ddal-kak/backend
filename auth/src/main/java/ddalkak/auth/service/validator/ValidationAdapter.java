@@ -1,4 +1,4 @@
-package ddalkak.auth.validator;
+package ddalkak.auth.service.validator;
 
 import ddalkak.auth.dto.HttpRequestSignature;
 import lombok.RequiredArgsConstructor;

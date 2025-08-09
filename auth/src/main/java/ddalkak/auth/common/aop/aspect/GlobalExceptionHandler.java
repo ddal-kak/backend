@@ -1,4 +1,4 @@
-package ddalkak.auth.aop.aspect;
+package ddalkak.auth.common.aop.aspect;
 
 import ddalkak.auth.common.exception.OwnerMismatchException;
 import ddalkak.auth.common.exception.RoleMismatchException;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Slf4j
 public class GlobalExceptionHandler {
-    @Around("@annotation(ddalkak.auth.aop.annotation.ExceptionCatcher)")
+    @Around("@annotation(ddalkak.auth.common.aop.annotation.ExceptionCatcher)")
     public Object handleException(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
             return joinPoint.proceed();
@@ -38,6 +38,9 @@ public class GlobalExceptionHandler {
         } catch (OwnerMismatchException e) {
             log.info("Is Not Owner", e);
             return ApiGatewayLambdaResponse.errorOf("MISMATCH_OWNER");
+        } catch (Exception e) {
+            log.info("Unexpected Exception", e);
+            return ApiGatewayLambdaResponse.errorOf("UNEXPECTED");
         }
     }
 }

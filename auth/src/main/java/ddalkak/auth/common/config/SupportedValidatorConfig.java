@@ -1,8 +1,8 @@
-package ddalkak.auth.config;
+package ddalkak.auth.common.config;
 
-import ddalkak.auth.validator.AdminValidator;
-import ddalkak.auth.validator.OwnerCheckValidator;
-import ddalkak.auth.validator.Validator;
+import ddalkak.auth.service.validator.AdminValidator;
+import ddalkak.auth.service.validator.OwnerCheckValidator;
+import ddalkak.auth.service.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

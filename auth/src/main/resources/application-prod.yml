@@ -5,3 +5,11 @@ spring:
     activate:
       on-profile: prod
     import: aws-parameterstore:/config/auth_prod/
+  cloud:
+    function:
+      definition: lambdaEventListener
+logging:
+  level:
+    root: INFO
+jwt:
+  public_key: ${jwt_public_key}

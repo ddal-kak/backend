@@ -1,8 +1,7 @@
-package ddalkak.auth.validator;
+package ddalkak.auth.service.validator;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
-import ddalkak.auth.common.service.JwtService;
-import ddalkak.auth.dto.ApiGatewayLambdaResponse;
+import ddalkak.auth.service.JwtService;
 import ddalkak.auth.dto.HttpRequestSignature;
 import ddalkak.auth.dto.UserContext;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +26,7 @@ public class AdminValidator implements Validator {
     }
 
     @Override
-    public ApiGatewayLambdaResponse execute(APIGatewayV2HTTPEvent event, UserContext userContext) {
+    public void execute(APIGatewayV2HTTPEvent event, UserContext userContext) {
         jwtService.validateAdmin(userContext.getRoles());
-        return ApiGatewayLambdaResponse.successOf(userContext.getMemberId());
     }
 }
