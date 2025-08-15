@@ -32,7 +32,7 @@ public class PrizeClient {
     private String generateGETUri(final long prizeId) {
         return UriComponentsBuilder
                 .fromUri(URI.create(targetAddress))
-                .path("/prize/{prizeId}")
+                .path("/api/prizes/{prizeId}")
                 .buildAndExpand(prizeId)
                 .toUriString();
     }
