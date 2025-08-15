@@ -3,15 +3,12 @@ package ddalkak.prize.service.outbox.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.prize.domain.entity.EventType;
-import ddalkak.prize.domain.entity.Outbox;
+import ddalkak.prize.domain.entity.PrizeOutbox;
 import ddalkak.prize.dto.event.DecreaseResultEvent;
-import ddalkak.prize.dto.event.DrawWinEvent;
 import ddalkak.prize.dto.event.ExternalEvent;
-import ddalkak.prize.eventhandler.DecreaseResult;
 import ddalkak.prize.repository.outbox.OutboxRepository;
 import ddalkak.prize.service.outbox.OutBoxService;
 
-import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,11 +28,11 @@ public class OutboxServiceImpl implements OutBoxService {
     public Long save(ExternalEvent event, EventType eventType) {
 
         String payload = serialize(event);
-        Outbox outbox = new Outbox(event.eventId(), payload, eventType);
-        log.info("Saving event to outbox: {}" ,outbox.toString());
-        Outbox savedOutbox = outboxRepository.save(new Outbox(event.eventId(), payload, eventType));
+        PrizeOutbox prizeOutbox = new PrizeOutbox(event.eventId(), payload, eventType);
+        log.info("Saving event to outbox: {}" , prizeOutbox.toString());
+        PrizeOutbox savedPrizeOutbox = outboxRepository.save(new PrizeOutbox(event.eventId(), payload, eventType));
 
-        return savedOutbox.getId();
+        return savedPrizeOutbox.getId();
 
 
     }
@@ -45,9 +42,9 @@ public class OutboxServiceImpl implements OutBoxService {
     @Override
     @Transactional
     public void markEventAsPublished(Long eventId) {
-        Outbox outbox = outboxRepository.findByEventId(eventId)
+        PrizeOutbox prizeOutbox = outboxRepository.findByEventId(eventId)
                 .orElseThrow();
-        outbox.markAsPublished();
+        prizeOutbox.markAsPublished();
         log.info("Event marked as published: eventId= {}", eventId);
     }
     @Override
@@ -58,9 +55,9 @@ public class OutboxServiceImpl implements OutBoxService {
                 .toList();
 
     }
-    private DecreaseResultEvent mapToDecreaseResultEvent(Outbox outbox) {
+    private DecreaseResultEvent mapToDecreaseResultEvent(PrizeOutbox prizeOutbox) {
         try {
-           return objectMapper.readValue(outbox.getPayload(), DecreaseResultEvent.class);
+           return objectMapper.readValue(prizeOutbox.getPayload(), DecreaseResultEvent.class);
         } catch (JsonProcessingException e) {
             log.error("Error mapping Outbox payload to DecreaseResultEvent", e);
             throw new RuntimeException(e);
