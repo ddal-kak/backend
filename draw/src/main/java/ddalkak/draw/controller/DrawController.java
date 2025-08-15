@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/draws")
+@RequestMapping("/api/draws")
 @RequiredArgsConstructor
 public class DrawController {
     private final DrawService drawService;
