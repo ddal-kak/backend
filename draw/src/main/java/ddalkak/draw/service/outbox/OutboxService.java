@@ -4,8 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.draw.domain.EventType;
 import ddalkak.draw.domain.OutboxConstants;
-import ddalkak.draw.domain.entity.Outbox;
-import ddalkak.draw.dto.event.DrawWinEvent;
+import ddalkak.draw.domain.entity.DrawOutbox;
 import ddalkak.draw.dto.event.ExternalEvent;
 import ddalkak.draw.dto.event.PendingEvent;
 import ddalkak.draw.repository.outbox.OutboxRepository;
@@ -27,12 +26,12 @@ public class OutboxService {
     @Transactional
     public void saveEvent(ExternalEvent event, EventType eventType) {
         String payload = serializeEvent(event);
-        outboxRepository.save(Outbox.of(event.eventId(), payload, eventType));
+        outboxRepository.save(DrawOutbox.of(event.eventId(), payload, eventType));
     }
 
     @Transactional
     public void markEventAsPublished(final long eventId) {
-        Outbox event = outboxRepository.findByEventId(eventId).orElseThrow();
+        DrawOutbox event = outboxRepository.findByEventId(eventId).orElseThrow();
         event.markAsPublished();
     }
 
@@ -40,7 +39,7 @@ public class OutboxService {
     public List<PendingEvent> pollUnpublishedEvent() {
         return outboxRepository.findAllUnpublishedEventSizeOf(OutboxConstants.POLLING_BATCHSIZE.getConstant())
                 .stream()
-                .map(outbox -> mapToPendingEvent(outbox))
+                .map(drawOutbox -> mapToPendingEvent(drawOutbox))
                 .collect(Collectors.toList());
     }
 
@@ -53,18 +52,18 @@ public class OutboxService {
         }
     }
 
-    private PendingEvent mapToPendingEvent(Outbox outbox) {
+    private PendingEvent mapToPendingEvent(DrawOutbox drawOutbox) {
         try {
-            return PendingEvent.of(outbox.getType(),
-                    objectMapper.readValue(outbox.getPayload(), getTargetClass(outbox)));
+            return PendingEvent.of(drawOutbox.getType(),
+                    objectMapper.readValue(drawOutbox.getPayload(), getTargetClass(drawOutbox)));
         } catch (JsonProcessingException e) {
             log.warn("[OutboxService.mapToPendingEvent] objectMapper 역직렬화 실패");
             throw new IllegalArgumentException(e);
         }
     }
 
-    private Class<? extends ExternalEvent> getTargetClass(Outbox outbox) {
-        return outbox.getType()
+    private Class<? extends ExternalEvent> getTargetClass(DrawOutbox drawOutbox) {
+        return drawOutbox.getType()
                 .getTargetClass();
     }
 }

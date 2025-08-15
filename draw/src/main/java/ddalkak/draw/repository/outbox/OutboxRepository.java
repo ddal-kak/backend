@@ -1,14 +1,14 @@
 package ddalkak.draw.repository.outbox;
 
-import ddalkak.draw.domain.entity.Outbox;
+import ddalkak.draw.domain.entity.DrawOutbox;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OutboxRepository {
-    Outbox save(Outbox outbox);
+    DrawOutbox save(DrawOutbox drawOutbox);
 
-    Optional<Outbox> findByEventId(Long eventId);
+    Optional<DrawOutbox> findByEventId(Long eventId);
 
-    List<Outbox> findAllUnpublishedEventSizeOf(int batchSize);
+    List<DrawOutbox> findAllUnpublishedEventSizeOf(int batchSize);
 }
