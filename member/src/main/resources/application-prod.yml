@@ -13,14 +13,14 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
   kafka:
     producer:
-      bootstrap-servers:
+      bootstrap-servers: ${kafka.bootstrap-server}
     template:
       default-topic: login
 jwt:
