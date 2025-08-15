@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Outbox extends BaseEntity {
+public class DrawOutbox extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "outbox_id")
@@ -22,8 +22,8 @@ public class Outbox extends BaseEntity {
     @Column(columnDefinition = "JSON")
     private String payload;
 
-    public static Outbox of(Long eventId, String payload, EventType eventType) {
-        return Outbox.builder()
+    public static DrawOutbox of(Long eventId, String payload, EventType eventType) {
+        return DrawOutbox.builder()
                 .eventId(eventId)
                 .payload(payload)
                 .status(EventStatus.READY_TO_PUBLISH)
@@ -36,13 +36,13 @@ public class Outbox extends BaseEntity {
     }
 
     @Builder(access = AccessLevel.PRIVATE)
-    public Outbox(Long eventId, EventStatus status, EventType type, String payload) {
+    public DrawOutbox(Long eventId, EventStatus status, EventType type, String payload) {
         this.eventId = eventId;
         this.status = status;
         this.type = type;
         this.payload = payload;
     }
 
-    public Outbox() {
+    public DrawOutbox() {
     }
 }

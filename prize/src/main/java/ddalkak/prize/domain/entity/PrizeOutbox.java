@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Outbox extends BaseEntity {
+public class PrizeOutbox extends BaseEntity {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
@@ -17,14 +17,14 @@ public class Outbox extends BaseEntity {
     @Column(columnDefinition = "JSON")
     private String payload;
 
-    public Outbox(Long eventId, String payload, EventType eventType) {
+    public PrizeOutbox(Long eventId, String payload, EventType eventType) {
         this.eventId = eventId;
         this.status = EventStatus.READY_TO_PUBLISH;
         this.type = eventType;
         this.payload = payload;
     }
 
-    public Outbox() {
+    public PrizeOutbox() {
 
     }
 

@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum MicroServicesConstants {
-    MEMBER_SERVICE("/member"),
-    DRAW_SERVICE("/draw"),
-    TICKET_SERVICE("/ticket"),
-    PRIZE_SERVICE("/prize");
+    MEMBER_SERVICE("/api/members"),
+    DRAW_SERVICE("/api/draws"),
+    TICKET_SERVICE("/api/tickets"),
+    PRIZE_SERVICE("/api/prizes");
 
     private final String prefix;
 }

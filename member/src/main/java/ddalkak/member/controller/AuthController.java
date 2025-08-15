@@ -18,7 +18,7 @@ import java.time.Duration;
 import static ddalkak.member.domain.JwtConstants.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;

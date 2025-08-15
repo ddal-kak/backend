@@ -18,7 +18,7 @@ public class DecreaseStockEventListener {
 
     @KafkaListener(
             groupId = "determine-draw-result",
-            topics = "prize.decrease-stock",
+            topics = "prize.decrease-result",
             containerFactory = "kafkaDecreaseResultListenerContainerFactory"
     )
     public void handleEvent(DecreaseStockEvent event, Acknowledgment ack) {
