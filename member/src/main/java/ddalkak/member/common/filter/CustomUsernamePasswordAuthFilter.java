@@ -21,7 +21,7 @@ public class CustomUsernamePasswordAuthFilter extends UsernamePasswordAuthentica
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public CustomUsernamePasswordAuthFilter() {
-        super.setFilterProcessesUrl("/login");
+        super.setFilterProcessesUrl("/api/auth/login");
     }
 
     /**
