@@ -18,13 +18,14 @@ public class PresignedURLGenerator {
     @Value("${spring.cloud.aws.s3.bucket}")
     private String bucket;
     private final S3Presigner s3Presigner;
+    private static final String prefix = "images/";
 
     public String generateUploadUrl(FileMetaData fileMetaData) {
         log.info("baseName={}", fileMetaData.baseName());
         log.info("mime={}", fileMetaData.mime());
         PutObjectRequest request = PutObjectRequest.builder()
                 .bucket(bucket)
-                .key(fileMetaData.baseName())
+                .key(prefix + fileMetaData.baseName())
                 .contentType(fileMetaData.mime())
                 .build();
         PresignedPutObjectRequest presignedRequest = s3Presigner.presignPutObject(builder -> builder
