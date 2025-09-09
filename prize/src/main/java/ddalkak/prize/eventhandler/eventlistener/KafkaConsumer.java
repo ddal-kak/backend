@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class KafkaEventListener {
+public class KafkaConsumer {
     private final EventHandler eventHandler;
 
     @KafkaListener(
@@ -24,4 +24,5 @@ public class KafkaEventListener {
           ack.acknowledge();
 
     }
+
 }
