@@ -41,7 +41,6 @@ public class KafkaConsumerConfig {
     }
 
 
-
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, DrawWinEvent> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, DrawWinEvent> factory =
@@ -50,5 +49,8 @@ public class KafkaConsumerConfig {
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
         return factory;
     }
+
+
+
 
 }

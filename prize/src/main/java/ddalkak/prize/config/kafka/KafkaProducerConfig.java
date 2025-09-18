@@ -1,6 +1,6 @@
 package ddalkak.prize.config.kafka;
 
-import ddalkak.prize.dto.event.DecreaseResultEvent;
+import ddalkak.prize.dto.event.ExternalEvent;
 import ddalkak.prize.eventhandler.eventpublisher.KafkaProducerListener;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -26,7 +26,7 @@ public class KafkaProducerConfig {
     private KafkaProducerListener kafkaProducerListener;
 
     @Bean
-    public ProducerFactory<String, DecreaseResultEvent> producerFactory() {
+    public ProducerFactory<String, ExternalEvent> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -37,9 +37,17 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, DecreaseResultEvent> kafkaTemplate() {
-        KafkaTemplate<String, DecreaseResultEvent> template = new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, ExternalEvent> kafkaTemplate() {
+        KafkaTemplate<String, ExternalEvent> template = new KafkaTemplate<>(producerFactory());
         template.setProducerListener(kafkaProducerListener);
         return template;
     }
+
+    @Bean
+    public KafkaTemplate<String, ExternalEvent> dltKafkaTemplate() {
+        KafkaTemplate<String, ExternalEvent> template = new KafkaTemplate<>(producerFactory());
+        return template;
+    }
+
+
 }
