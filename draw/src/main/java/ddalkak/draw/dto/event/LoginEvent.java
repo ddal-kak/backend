@@ -2,7 +2,7 @@ package ddalkak.draw.dto.event;
 
 import java.time.Instant;
 
-public record LoginEvent(Long eventId,
+public record LoginEvent(long eventId,
                          Long memberId,
-                         Instant occurAt) {
+                         Instant occurAt) implements ExternalEvent{
 }
