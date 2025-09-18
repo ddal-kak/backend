@@ -48,7 +48,7 @@ public class KafkaEventHandler implements EventHandler {
                     Instant.now()
             );
             outBoxService.save(decreaseResultEvent, EventType.DECREASE_RESULT);
-            eventPublisher.publish(new DecreaseResultEvent(
+            eventPublisher.publish(EventType.DECREASE_RESULT.getTopic(),new DecreaseResultEvent(
                     event.eventId(),
                     event.prizeId(),
                     event.drawId(),
@@ -67,7 +67,7 @@ public class KafkaEventHandler implements EventHandler {
             );
 
             outBoxService.save(decreaseResultEvent, EventType.DECREASE_RESULT);
-            eventPublisher.publish(new DecreaseResultEvent(
+            eventPublisher.publish(EventType.DECREASE_RESULT.getTopic(),new DecreaseResultEvent(
                     event.eventId(),
                     event.prizeId(),
                     event.drawId(),

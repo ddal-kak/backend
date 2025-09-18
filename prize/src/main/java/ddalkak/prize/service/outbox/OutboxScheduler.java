@@ -1,5 +1,6 @@
 package ddalkak.prize.service.outbox;
 
+import ddalkak.prize.domain.entity.EventType;
 import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.eventhandler.eventpublisher.EventPublisher;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class OutboxScheduler implements SchedulingConfigurer {
         if (!events.isEmpty()) {
             interval.set(INITIAL);
             for (DecreaseResultEvent event : events) {
-                eventPublisher.publish(event);
+                eventPublisher.publish(EventType.DECREASE_RESULT.getTopic(),event);
             }
         } else {
             interval.updateAndGet(lastInterval -> Math.min(MAX_BACKOFF, lastInterval * MULTIPLIER));

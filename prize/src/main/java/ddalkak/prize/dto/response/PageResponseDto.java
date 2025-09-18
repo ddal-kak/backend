@@ -2,6 +2,7 @@ package ddalkak.prize.dto.response;
 
 import lombok.AccessLevel;
 import lombok.Builder;
+
 import java.util.List;
 
 @Builder(access = AccessLevel.PRIVATE)
