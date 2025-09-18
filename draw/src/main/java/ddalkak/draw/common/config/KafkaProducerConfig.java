@@ -39,4 +39,10 @@ public class KafkaProducerConfig {
         kafkaTemplate.setProducerListener(kafkaProducerListener);
         return kafkaTemplate;
     }
+
+    @Bean
+    public KafkaTemplate<String, ExternalEvent> dltKafkaTemplate() {
+        KafkaTemplate<String, ExternalEvent> kafkaTemplate = new KafkaTemplate<>(producerFactory());
+        return kafkaTemplate;
+    }
 }
