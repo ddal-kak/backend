@@ -1,22 +1,17 @@
 package ddalkak.prize.controller;
 
 import ddalkak.prize.dto.request.PrizeSaveRequestDto;
-import ddalkak.prize.dto.response.AdminPrizeResponseDto;
 import ddalkak.prize.dto.request.PrizeUpdateRequestDto;
+import ddalkak.prize.dto.response.AdminPrizeResponseDto;
 import ddalkak.prize.dto.response.PageResponseDto;
-import ddalkak.prize.dto.response.PrizeResponseDto;
 import ddalkak.prize.service.prize.PrizeService;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/prizes")

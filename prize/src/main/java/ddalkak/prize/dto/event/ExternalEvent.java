@@ -6,4 +6,5 @@ public interface ExternalEvent {
     Long eventId();
     Instant occurAt();
 
+
 }

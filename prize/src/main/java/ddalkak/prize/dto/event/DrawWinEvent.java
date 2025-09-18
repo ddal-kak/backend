@@ -7,5 +7,7 @@ public record DrawWinEvent(
         Long prizeId,
         Long drawId,
         Instant occurAt
+
 ) implements ExternalEvent {
+
 }

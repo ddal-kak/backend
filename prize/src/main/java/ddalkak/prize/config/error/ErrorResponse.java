@@ -1,8 +1,8 @@
 package ddalkak.prize.config.error;
 
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

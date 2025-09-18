@@ -6,7 +6,7 @@ import lombok.Getter;
 @Entity
 @Getter
 public class PrizeOutbox extends BaseEntity {
-    @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private Long eventId;

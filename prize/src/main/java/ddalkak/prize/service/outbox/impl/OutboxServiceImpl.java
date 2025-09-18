@@ -8,7 +8,6 @@ import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.dto.event.ExternalEvent;
 import ddalkak.prize.repository.outbox.OutboxRepository;
 import ddalkak.prize.service.outbox.OutBoxService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class OutboxServiceImpl implements OutBoxService {
 
         String payload = serialize(event);
         PrizeOutbox prizeOutbox = new PrizeOutbox(event.eventId(), payload, eventType);
-        log.info("Saving event to outbox: {}" , prizeOutbox.toString());
+        log.info("Saving event to outbox: {}" , prizeOutbox);
         PrizeOutbox savedPrizeOutbox = outboxRepository.save(new PrizeOutbox(event.eventId(), payload, eventType));
 
         return savedPrizeOutbox.getId();
