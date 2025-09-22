@@ -35,8 +35,11 @@ public class ExternalEventHandler {
     public void handleDecreaseStockEvent(final DecreaseStockEvent event) {
         if (event.result() == DecreaseResult.SUCCESS) {
             drawService.finalizeDrawResult(event.drawId(), DrawResult.WIN);
-        } else {
+        } else if (event.result() == DecreaseResult.FAILURE) {
             drawService.finalizeDrawResult(event.drawId(), DrawResult.LOSE);
+        } else {
+            drawService.finalizeDrawResult(event.drawId(), DrawResult.ERROR);
+            ticketService.increaseTicket(event.memberId());
         }
     }
 }

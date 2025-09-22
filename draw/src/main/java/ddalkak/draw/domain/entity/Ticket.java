@@ -36,6 +36,10 @@ public class Ticket extends BaseEntity {
         quantity--;
     }
 
+    public void increase() {
+        quantity++;
+    }
+
     public void rewardDailyLogin(LocalDate today) {
         if (lastLogin == null || !lastLogin.isEqual(today)) {
             quantity++;
