@@ -19,10 +19,9 @@ public class KafkaConsumer {
             groupId = "prize-service",
             containerFactory = "kafkaListenerContainerFactory"
     )
-
     public void onMessage(DrawWinEvent event, Acknowledgment ack) {
-          eventHandler.handleDecreaseStockEvent(event);
-          ack.acknowledge();
+          eventHandler.handleDecreaseStockEvent(event,ack);
+
     }
 
 }

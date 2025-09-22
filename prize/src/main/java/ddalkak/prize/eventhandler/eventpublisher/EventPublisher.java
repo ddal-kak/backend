@@ -7,4 +7,5 @@ import org.springframework.kafka.support.Acknowledgment;
 public interface EventPublisher {
     void publish(String topic,ExternalEvent event);
     void publish(ProducerRecord<String,ExternalEvent> record, Acknowledgment ack);
+    void publish(String topic,ExternalEvent event, Acknowledgment ack);
 }

@@ -29,4 +29,15 @@ public class KafkaPublisher implements EventPublisher {
             }
         });
     }
+
+    public void publish(String topic, ExternalEvent event, Acknowledgment ack) {
+        kafkaTemplate.send(topic, event)
+                .whenComplete((sendResult, ex) -> {
+                    if (ex == null) {
+                        ack.acknowledge();
+                    } else {
+                        log.info("발행 실패, ack failed");
+                    }
+                });
+    }
 }
