@@ -35,6 +35,13 @@ public class TicketService {
         ticket.rewardDailyLogin(toLocalDate(loginAt));
     }
 
+    @Transactional
+    public void increaseTicket(final long memberId) {
+        Ticket ticket = ticketRepository.findByMemberId(memberId)
+                .orElseThrow();
+        ticket.increase();
+    }
+
     @Transactional(readOnly = true)
     public TicketResponse findTicket(final long memberId) {
         return TicketResponse.of(

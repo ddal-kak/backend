@@ -33,7 +33,7 @@ public class DrawService {
         drawRepository.save(draw);
 
         if (draw.isWinPending()) {
-            applicationEventPublisher.publishEvent(DrawWinEvent.of(idGenerator.generate(), draw.getId(), prizeId));
+            applicationEventPublisher.publishEvent(DrawWinEvent.of(idGenerator.generate(), draw.getId(), memberId, prizeId));
         }
     }
 
