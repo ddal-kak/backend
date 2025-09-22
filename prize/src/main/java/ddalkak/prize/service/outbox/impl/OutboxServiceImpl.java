@@ -27,10 +27,8 @@ public class OutboxServiceImpl implements OutBoxService {
     public Long save(ExternalEvent event, EventType eventType) {
 
         String payload = serialize(event);
-        PrizeOutbox prizeOutbox = new PrizeOutbox(event.eventId(), payload, eventType);
-        log.info("Saving event to outbox: {}" , prizeOutbox);
-        PrizeOutbox savedPrizeOutbox = outboxRepository.save(new PrizeOutbox(event.eventId(), payload, eventType));
-
+        PrizeOutbox savedPrizeOutbox = outboxRepository.save(PrizeOutbox.of(event.eventId(), payload, eventType));
+        log.info("Saving event to outbox: {}" , savedPrizeOutbox);
         return savedPrizeOutbox.getId();
 
 

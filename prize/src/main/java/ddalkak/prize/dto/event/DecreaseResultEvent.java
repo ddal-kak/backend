@@ -8,6 +8,7 @@ public record DecreaseResultEvent(
         Long eventId,
         Long prizeId,
         Long drawId,
+        Long memberId,
         DecreaseResult result,
         Instant occurAt
 ) implements ExternalEvent {

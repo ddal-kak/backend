@@ -1,9 +1,10 @@
 package ddalkak.prize.eventhandler;
 
 import ddalkak.prize.dto.event.DrawWinEvent;
+import org.springframework.kafka.support.Acknowledgment;
 
 public interface EventHandler {
-    void handleDecreaseStockEvent(DrawWinEvent event);
+    void handleDecreaseStockEvent(DrawWinEvent event, Acknowledgment ack);
 
 
 }

@@ -2,8 +2,10 @@ package ddalkak.prize.eventhandler;
 
 import ddalkak.prize.config.kafka.KafkaConstants;
 import ddalkak.prize.domain.entity.EventType;
+import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.dto.event.DrawWinEvent;
 import ddalkak.prize.dto.event.ExternalEvent;
+import ddalkak.prize.dto.event.InternalDecreaseResultEvent;
 import ddalkak.prize.eventhandler.eventpublisher.EventPublisher;
 import ddalkak.prize.service.discardedEvent.DiscardedEventService;
 import ddalkak.prize.service.util.HeaderUtils;
@@ -15,6 +17,7 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
 import java.util.List;
 
 @Component
@@ -24,7 +27,6 @@ public class DltHandler {
     private final List<Class<? extends Throwable>> retryableExceptions;
     private final EventPublisher eventPublisher;
     private final DiscardedEventService discardedEventService;
-
 
     public void handleDltEvents(DrawWinEvent event,
                                 Acknowledgment ack,
@@ -51,8 +53,17 @@ public class DltHandler {
         } else {
             log.info("non retryable ex");
         }
-        discardedEventService.save(EventType.DRAW_WIN ,event, exception, errMsg);
-        ack.acknowledge();
+
+        DecreaseResultEvent decreaseResultEvent = new DecreaseResultEvent(
+                event.eventId(),
+                event.prizeId(),
+                event.drawId(),
+                event.memberId(),
+                DecreaseResult.ERROR,
+                Instant.now()
+        );
+        InternalDecreaseResultEvent internalDecreaseResultEvent = new InternalDecreaseResultEvent(decreaseResultEvent, ack);
+        discardedEventService.save(EventType.DRAW_WIN , internalDecreaseResultEvent, exception, errMsg, ack);
     }
 
     private static boolean isUnderMaxAttempt(int redriveAttempts) {
