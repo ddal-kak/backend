@@ -40,31 +40,13 @@ public class KafkaEventHandler implements EventHandler {
         try {
             prizeService.decreaseStock(event.prizeId());
             // Outbox에 이벤트 저장
-            DecreaseResultEvent decreaseResultEvent = new DecreaseResultEvent(
-                    event.eventId(),
-                    event.prizeId(),
-                    event.drawId(),
-                    event.memberId(),
-                    DecreaseResult.SUCCESS,
-                    Instant.now()
-            );
-            InternalEvent internalEvent = new InternalDecreaseResultEvent(decreaseResultEvent, ack);
+            InternalEvent internalEvent = new InternalDecreaseResultEvent(DecreaseResultEvent.of(event, DecreaseResult.SUCCESS), ack);
             applicationEventPublisher.publishEvent(internalEvent);
             log.info(String.valueOf(Instant.now()));
-
         } catch (OutOfStockException e) {
             log.warn("Failed to decrease stock for eventId= {}, prizeId= {}", event.eventId(), event.prizeId());
-            DecreaseResultEvent decreaseResultEvent = new DecreaseResultEvent(
-                    event.eventId(),
-                    event.prizeId(),
-                    event.drawId(),
-                    event.memberId(),
-                    DecreaseResult.FAILURE,
-                    Instant.now()
-            );
-            InternalEvent internalEvent = new InternalDecreaseResultEvent(decreaseResultEvent, ack);
+            InternalEvent internalEvent = new InternalDecreaseResultEvent(DecreaseResultEvent.of(event, DecreaseResult.FAILURE), ack);
             applicationEventPublisher.publishEvent(internalEvent);
-
         }
     }
 

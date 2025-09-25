@@ -54,15 +54,7 @@ public class DltHandler {
             log.info("non retryable ex");
         }
 
-        DecreaseResultEvent decreaseResultEvent = new DecreaseResultEvent(
-                event.eventId(),
-                event.prizeId(),
-                event.drawId(),
-                event.memberId(),
-                DecreaseResult.ERROR,
-                Instant.now()
-        );
-        InternalDecreaseResultEvent internalDecreaseResultEvent = new InternalDecreaseResultEvent(decreaseResultEvent, ack);
+        InternalDecreaseResultEvent internalDecreaseResultEvent = new InternalDecreaseResultEvent(DecreaseResultEvent.of(event,DecreaseResult.ERROR), ack);
         discardedEventService.save(EventType.DRAW_WIN , internalDecreaseResultEvent, exception, errMsg, ack);
     }
 
