@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface TicketRepository {
     Optional<Ticket> findByMemberId(long memberId);
+
+    Ticket save(Ticket ticket);
 }

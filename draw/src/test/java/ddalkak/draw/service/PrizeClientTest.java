@@ -1,6 +1,6 @@
 package ddalkak.draw.service;
 
-import ddalkak.draw.domain.DrawProbability;
+import ddalkak.draw.domain.Prize;
 import ddalkak.draw.service.api.PrizeClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -40,17 +40,17 @@ class PrizeClientTest {
     void 캐시가_없는경우_API를_호출한다() {
         //given
         long prizeId = 1L;
-        DrawProbability response = new DrawProbability(1000L, 10L);
+        Prize response = new Prize("test", 1000L, 10L);
         when(webClient.get()
                 .uri(anyString())
                 .retrieve()
-                .bodyToMono(DrawProbability.class)
+                .bodyToMono(Prize.class)
         ).thenReturn(Mono.just(response));
         clearInvocations(webClient);
         cacheManager.getCache("probability").clear();
 
         //when
-        DrawProbability fetched = prizeClient.fetch(prizeId);
+        Prize fetched = prizeClient.fetch(prizeId);
 
         //when
         verify(webClient, times(1)).get();
@@ -60,11 +60,11 @@ class PrizeClientTest {
     void 캐시가_있는경우_API를_호출하지_않는다() {
         //given
         long id = 1L;
-        DrawProbability cached = new DrawProbability(1000L, 10L);
+        Prize cached = new Prize("test", 1000L, 10L);
         cacheManager.getCache("probability").put(id, cached);
 
         //when
-        DrawProbability fetched = prizeClient.fetch(id);
+        Prize fetched = prizeClient.fetch(id);
 
         //then
         verifyNoInteractions(webClient);

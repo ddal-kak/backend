@@ -1,7 +1,8 @@
 package ddalkak.member.service.event;
 
-import ddalkak.member.dto.event.InternalLoginEvent;
+import ddalkak.member.domain.EventType;
 import ddalkak.member.dto.event.ExternalEvent;
+import ddalkak.member.dto.event.InternalLoginEvent;
 import ddalkak.member.service.outbox.OutboxService;
 import ddalkak.member.service.refreshtoken.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +27,14 @@ public class InternalLoginEventHandler {
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     public void saveEventOnOutbox(InternalLoginEvent event) {
-        outboxService.saveLoginEvent(new ExternalEvent(
-                event.eventId(),
-                event.getMemberId(),
-                event.occurAt()
-        ));
+        outboxService.saveEvent(
+                new ExternalEvent(event.eventId(), event.getMemberId(), event.occurAt()),
+                EventType.LOGIN);
     }
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void publishExternalEvent(InternalLoginEvent internalEvent) {
-        externalEventPublisher.publish("member.login", ExternalEvent.of(internalEvent));
+        externalEventPublisher.publish(EventType.LOGIN.getTopic(), ExternalEvent.of(internalEvent));
     }
 }

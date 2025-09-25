@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface PrizeRepository {
     Prize save(Prize prize);
+    Page<Prize> findAllByIdDesc(Long lastId,Pageable pageable);
     Page<Prize> findAllByIdDesc(Pageable pageable);
     Optional<Prize> findById(Long id);
+
 }

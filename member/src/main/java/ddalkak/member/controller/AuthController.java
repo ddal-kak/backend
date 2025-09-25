@@ -1,8 +1,10 @@
 package ddalkak.member.controller;
 
+import ddalkak.member.domain.JwtConstants;
 import ddalkak.member.dto.jwt.Jwt;
 import ddalkak.member.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.server.Cookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 
+import static ddalkak.member.domain.JwtConstants.*;
+
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
@@ -28,17 +32,18 @@ public class AuthController {
     public ResponseEntity<Void> refreshLogin(@CookieValue(value = "refreshToken") final String refreshToken) {
         Jwt newJwt = authService.refreshLogin(refreshToken);
         return ResponseEntity.ok()
-                .header(HttpHeaders.AUTHORIZATION, newJwt.generateFullAccessTokenInfo())
-                .header(HttpHeaders.SET_COOKIE, createRefreshTokenCookie(newJwt.refreshToken()))
+                .header(ACCESS_TOKEN.getHttpHeader(), createCookie(newJwt.accessToken(), ACCESS_TOKEN))
+                .header(REFRESH_TOKEN.getHttpHeader(), createCookie(newJwt.refreshToken(), REFRESH_TOKEN))
                 .build();
     }
 
-    private String createRefreshTokenCookie(String refreshToken) {
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+    private String createCookie(String token, JwtConstants constant) {
+        ResponseCookie cookie = ResponseCookie.from(constant.getKey(), token)
                 .httpOnly(true)
                 .secure(true)
+                .sameSite(Cookie.SameSite.LAX.name())
                 .path("/")
-                .maxAge(Duration.ofDays(14))
+                .maxAge(constant.getDuration())
                 .build();
         return cookie.toString();
     }

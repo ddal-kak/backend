@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum EventType {
-    LOGIN("member.login");
+    LOGIN("member.login"),
+    SIGNUP("member.signup");
 
     private final String topic;
 }

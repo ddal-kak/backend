@@ -4,20 +4,22 @@ import ddalkak.prize.config.error.exception.OutOfStockException;
 import ddalkak.prize.config.error.exception.PageOutOfBoundsException;
 import ddalkak.prize.config.error.exception.PrizeNotFoundException;
 import ddalkak.prize.domain.entity.Prize;
-import ddalkak.prize.dto.PrizeResponseDto;
-import ddalkak.prize.dto.PrizeSaveRequestDto;
-import ddalkak.prize.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.dto.request.PrizeSaveRequestDto;
+import ddalkak.prize.dto.request.PrizeUpdateRequestDto;
+import ddalkak.prize.dto.response.AdminPrizeResponseDto;
+import ddalkak.prize.dto.response.PageResponseDto;
+import ddalkak.prize.dto.response.PrizeResponseDto;
 import ddalkak.prize.repository.prize.PrizeRepository;
 import ddalkak.prize.service.prize.PrizeService;
-import ddalkak.prize.service.util.RandomNumberGenerator;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -37,20 +39,8 @@ public class PrizeServiceImpl implements PrizeService {
     @Transactional
     public Long save(PrizeSaveRequestDto prizeSaveRequestDto) {
         log.info("Saving new prize: {}", prizeSaveRequestDto.name());
-        // 난수 생성
-        Long randomNumber = RandomNumberGenerator.ofRange(prizeSaveRequestDto.probabilityRange());
-
-        Prize prize = new Prize(
-                prizeSaveRequestDto.name(),
-                prizeSaveRequestDto.quantity(),
-                prizeSaveRequestDto.price(),
-                prizeSaveRequestDto.probabilityRange(),
-                randomNumber
-        );
-
         // 엔티티 저장
-        Prize savedPrize = prizeRepository.save(prize);
-
+        Prize savedPrize = prizeRepository.save(Prize.from(prizeSaveRequestDto));
         // 저장된 엔티티의 ID 반환
         return savedPrize.getId();
     }
@@ -59,24 +49,23 @@ public class PrizeServiceImpl implements PrizeService {
     /**
      * 페이지네이션된 상품 목록을 조회합니다.
      *
-     * @param page 페이지 번호
      * @param size 페이지 크기
      * @return 상품 응답 DTO 페이지
      * @throws PageOutOfBoundsException 페이지 번호가 범위를 벗어난 경우
      */
-
     @Override
-    public Page<PrizeResponseDto> getPrizePage(int page, int size) {
-        log.info("Fetching prize page: {}, size: {}", page, size);
-        Pageable pageable = Pageable.ofSize(size).withPage(page);
-        Page<PrizeResponseDto> resultPage = prizeRepository.findAllByIdDesc(pageable)
-                .map(PrizeResponseDto::new);
-        if(page >= resultPage.getTotalPages() && resultPage.getTotalPages() >= 0) {
-           throw new PageOutOfBoundsException();
-        }
-        return resultPage;
-
+    @Transactional(readOnly = true)
+    public PageResponseDto getPrizePage(int size, Long lastId) {
+        Pageable pageable = Pageable.ofSize(size + 1);
+        List<PrizeResponseDto> resultPage = getResultPage(lastId, pageable);
+        boolean hasNext = resultPage.size() == size + 1;
+        return PageResponseDto.of(
+                resultPage.stream()
+                        .limit(size)
+                        .collect(Collectors.toList()),
+                hasNext);
     }
+
     /**
      * ID로 상품을 조회합니다.
      *
@@ -86,12 +75,13 @@ public class PrizeServiceImpl implements PrizeService {
      */
 
     @Override
-    public PrizeResponseDto getPrize(Long id) {
+    public AdminPrizeResponseDto getPrize(Long id) {
         log.info("Fetching prize with id: {}", id);
         return prizeRepository.findById(id)
-                .map(PrizeResponseDto::new)
-                .orElseThrow( PrizeNotFoundException::new);
+                .map(prize -> AdminPrizeResponseDto.of(prize))
+                .orElseThrow(PrizeNotFoundException::new);
     }
+
     /**
      * 상품 정보를 업데이트합니다.
      *
@@ -103,22 +93,21 @@ public class PrizeServiceImpl implements PrizeService {
     @Transactional
     public Long updatePrize(PrizeUpdateRequestDto prizeUpdateRequestDto) {
         log.info("Updating prize with id: {}", prizeUpdateRequestDto.id());
-       Prize prize = prizeRepository.findById(prizeUpdateRequestDto.id())
-               .orElseThrow(PrizeNotFoundException::new);
-       prize.update(
-               prizeUpdateRequestDto.name(),
-               prizeUpdateRequestDto.quantity(),
-               prizeUpdateRequestDto.price()
-       );
-       return prize.getId();
+        Prize prize = prizeRepository.findById(prizeUpdateRequestDto.id())
+                .orElseThrow(PrizeNotFoundException::new);
+        prize.update(
+                prizeUpdateRequestDto.name(),
+                prizeUpdateRequestDto.quantity(),
+                prizeUpdateRequestDto.price()
+        );
+        return prize.getId();
     }
+
     /**
      * 상품의 재고를 감소시킵니다.
      *
      * @param prizeId 상품 ID
      * @throws PrizeNotFoundException 상품을 찾을 수 없는 경우
-     *
-     *
      */
     // 재고 감소 메서드
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -126,11 +115,22 @@ public class PrizeServiceImpl implements PrizeService {
         Prize prize = prizeRepository.findById(prizeId)
                 .orElseThrow(PrizeNotFoundException::new);
         if (prize.getQuantity() <= 0) {
-           throw new OutOfStockException();
+            throw new OutOfStockException();
         } else {
-           prize.update(null,prize.getQuantity() - 1, null);
+            prize.update(null, prize.getQuantity() - 1, null);
         }
 
+    }
+
+    private List<PrizeResponseDto> getResultPage(Long lastId, Pageable pageable) {
+        if (lastId == null) {
+            return prizeRepository.findAllByIdDesc(pageable)
+                    .map(prize -> PrizeResponseDto.of(prize))
+                    .getContent();
+        }
+        return prizeRepository.findAllByIdDesc(lastId, pageable)
+                .map(prize -> PrizeResponseDto.of(prize))
+                .getContent();
     }
 
 }

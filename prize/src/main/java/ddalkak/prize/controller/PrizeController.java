@@ -1,23 +1,20 @@
 package ddalkak.prize.controller;
 
-import ddalkak.prize.dto.PrizeSaveRequestDto;
-import ddalkak.prize.dto.PrizeResponseDto;
-import ddalkak.prize.dto.PrizeUpdateRequestDto;
+import ddalkak.prize.dto.request.PrizeSaveRequestDto;
+import ddalkak.prize.dto.request.PrizeUpdateRequestDto;
+import ddalkak.prize.dto.response.AdminPrizeResponseDto;
+import ddalkak.prize.dto.response.PageResponseDto;
 import ddalkak.prize.service.prize.PrizeService;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/prize")
+@RequestMapping("/api/prizes")
 @RequiredArgsConstructor
 @Validated
 public class PrizeController {
@@ -31,17 +28,18 @@ public class PrizeController {
 
     }
     @GetMapping
-    public ResponseEntity< List<PrizeResponseDto> > getPrizePage (
-        @PositiveOrZero(message = "처음 페이지입니다.") @RequestParam(defaultValue = "0") int page,
-        @Positive(message = "요청 데이터수는 1개 이상이어야 합니다.") @RequestParam(defaultValue = "5") int size )
+    public ResponseEntity<PageResponseDto> getPrizePage (
+        @Positive(message = "요청 데이터수는 1개 이상이어야 합니다.") @RequestParam(defaultValue = "5") int size,
+        @RequestParam @Nullable Long lastId
+    )
     {
-        return ResponseEntity.ok(prizeService.getPrizePage(page, size).getContent());
+        return ResponseEntity.ok(prizeService.getPrizePage(size, lastId));
     }
 
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<PrizeResponseDto> getPrize(@PathVariable Long id) {
+    public ResponseEntity<AdminPrizeResponseDto> getPrize(@PathVariable Long id) {
         return ResponseEntity.ok(prizeService.getPrize(id));
     }
     @PatchMapping

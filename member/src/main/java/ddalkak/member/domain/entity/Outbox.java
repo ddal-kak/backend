@@ -21,12 +21,12 @@ public class Outbox extends BaseEntity{
     @Column(columnDefinition = "JSON")
     private String payload;
 
-    public static Outbox of(Long eventId, String payload) {
+    public static Outbox of(Long eventId, String payload, EventType eventType) {
         return Outbox.builder()
                 .eventId(eventId)
                 .payload(payload)
                 .status(EventStatus.READY_TO_PUBLISH)
-                .type(EventType.LOGIN)
+                .type(eventType)
                 .build();
     }
 
