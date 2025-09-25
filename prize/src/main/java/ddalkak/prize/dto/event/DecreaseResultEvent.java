@@ -12,4 +12,14 @@ public record DecreaseResultEvent(
         DecreaseResult result,
         Instant occurAt
 ) implements ExternalEvent {
+    public static DecreaseResultEvent of(DrawWinEvent event, DecreaseResult resultType) {
+        return new DecreaseResultEvent(
+                event.eventId(),
+                event.prizeId(),
+                event.drawId(),
+                event.memberId(),
+                resultType,
+                Instant.now()
+        );
+    }
 }

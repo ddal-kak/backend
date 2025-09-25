@@ -22,6 +22,7 @@ public class KafkaConsumer {
     public void onMessage(DrawWinEvent event, Acknowledgment ack) {
           eventHandler.handleDecreaseStockEvent(event,ack);
 
+
     }
 
 }
