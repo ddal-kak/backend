@@ -29,11 +29,11 @@ dependencies {
 	implementation("io.awspring.cloud:spring-cloud-aws-starter")
   	implementation("io.awspring.cloud:spring-cloud-aws-starter-parameter-store")
 
-	// Redis (Lettuce)
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-	// Cache
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
+//	// Redis (Lettuce)
+//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//
+//	// Cache
+//	implementation 'org.springframework.boot:spring-boot-starter-cache'
 
 	// Web Client
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
