@@ -14,28 +14,29 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 
 import java.time.Duration;
 
-@Configuration
-@EnableCaching
-public class RedisConfig {
-    @Value("${spring.data.redis.host}")
-    private String host;
-    @Value("${spring.data.redis.port}")
-    private int port;
-
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
-    }
-
-    @Bean
-    public CacheManager cacheManager(RedisConnectionFactory cf) {
-        RedisCacheConfiguration defaultConf =
-            RedisCacheConfiguration.defaultCacheConfig()
-                    .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                                    .entryTtl(Duration.ofMinutes(10));
-
-        return RedisCacheManager.builder(cf)
-                .cacheDefaults(defaultConf)
-                .build();
-    }
-}
+// 임시 Deprecate
+//@Configuration
+//@EnableCaching
+//public class RedisConfig {
+//    @Value("${spring.data.redis.host}")
+//    private String host;
+//    @Value("${spring.data.redis.port}")
+//    private int port;
+//
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        return new LettuceConnectionFactory(host, port);
+//    }
+//
+//    @Bean
+//    public CacheManager cacheManager(RedisConnectionFactory cf) {
+//        RedisCacheConfiguration defaultConf =
+//            RedisCacheConfiguration.defaultCacheConfig()
+//                    .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+//                                    .entryTtl(Duration.ofMinutes(10));
+//
+//        return RedisCacheManager.builder(cf)
+//                .cacheDefaults(defaultConf)
+//                .build();
+//    }
+//}

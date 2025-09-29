@@ -27,5 +27,6 @@ spring:
       bootstrap-servers: ${kafka.bootstrap-server}
     consumer:
       bootstrap-servers: ${kafka.bootstrap-server}
+    bootstrap-servers: ${kafka.bootstrap-server}
 uri:
   prize_server: ${prize.url}
