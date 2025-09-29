@@ -1,0 +1,77 @@
+name: Build & Push MSA images to ECR
+
+on:
+  push:
+    branches:
+      - "release/member"
+      - "release/prize"
+      - "release/draw"
+
+env:
+  AWS_REGION: ap-northeast-2
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # release/<service> → service 추출
+      - name: Detect service from branch
+        id: svc
+        run: |
+          SERVICE="${GITHUB_REF_NAME#release/}"
+          echo "service=$SERVICE" >> "$GITHUB_OUTPUT"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 각 서비스 디렉토리 안의 gradlew 실행 (루트 gradle 없음)
+      - name: Make gradlew executable
+        run: chmod +x "${{ steps.svc.outputs.service }}/gradlew"
+
+      # Gradle 캐시 + 빌드 (서비스 디렉토리 기준)
+      - name: Build service with Gradle
+        uses: gradle/gradle-build-action@v3
+        with:
+          build-root-directory: ${{ steps.svc.outputs.service }}
+          arguments: build -x test
+
+      - name: Configure AWS credentials (Access Keys)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push Docker image
+        env:
+          SERVICE: ${{ steps.svc.outputs.service }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          case "$SERVICE" in
+            member) REPO="ddalkak-member" ;;
+            prize)  REPO="ddalkak-prize" ;;
+            draw)   REPO="ddalkak-draw" ;;
+            *) echo "Unknown service: $SERVICE" && exit 1 ;;
+          esac
+
+          FULL_REPO="${ECR_REGISTRY}/${REPO}"
+
+          # Dockerfile은 각 서비스 디렉토리 최상단에 존재
+          docker build -f "${SERVICE}/Dockerfile" "${SERVICE}" \
+            -t "${FULL_REPO}:${IMAGE_TAG}" \
+            -t "${FULL_REPO}:latest"
+
+          docker push "${FULL_REPO}:${IMAGE_TAG}"
+          docker push "${FULL_REPO}:latest"
+          echo "image=${FULL_REPO}:${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
