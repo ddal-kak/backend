@@ -3,7 +3,7 @@ package ddalkak.prize.service.outbox.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.prize.domain.entity.EventType;
-import ddalkak.prize.domain.entity.PrizeOutbox;
+import ddalkak.prize.domain.entity.Outbox;
 import ddalkak.prize.dto.event.DecreaseResultEvent;
 import ddalkak.prize.dto.event.ExternalEvent;
 import ddalkak.prize.repository.outbox.OutboxRepository;
@@ -25,23 +25,18 @@ public class OutboxServiceImpl implements OutBoxService {
     @Override
     @Transactional
     public Long save(ExternalEvent event, EventType eventType) {
-
         String payload = serialize(event);
-        PrizeOutbox savedPrizeOutbox = outboxRepository.save(PrizeOutbox.of(event.eventId(), payload, eventType));
-        log.info("Saving event to outbox: {}" , savedPrizeOutbox);
-        return savedPrizeOutbox.getId();
-
-
+        Outbox savedOutbox = outboxRepository.save(Outbox.of(event.eventId(), payload, eventType));
+        log.info("Saving event to outbox: {}", savedOutbox);
+        return savedOutbox.getId();
     }
-
-
 
     @Override
     @Transactional
     public void markEventAsPublished(Long eventId) {
-        PrizeOutbox prizeOutbox = outboxRepository.findByEventId(eventId)
+        Outbox outbox = outboxRepository.findByEventId(eventId)
                 .orElseThrow();
-        prizeOutbox.markAsPublished();
+        outbox.markAsPublished();
         log.info("Event marked as published: eventId= {}", eventId);
     }
     @Override
@@ -52,9 +47,9 @@ public class OutboxServiceImpl implements OutBoxService {
                 .toList();
 
     }
-    private DecreaseResultEvent mapToDecreaseResultEvent(PrizeOutbox prizeOutbox) {
+    private DecreaseResultEvent mapToDecreaseResultEvent(Outbox outbox) {
         try {
-           return objectMapper.readValue(prizeOutbox.getPayload(), DecreaseResultEvent.class);
+           return objectMapper.readValue(outbox.getPayload(), DecreaseResultEvent.class);
         } catch (JsonProcessingException e) {
             log.error("Error mapping Outbox payload to DecreaseResultEvent", e);
             throw new RuntimeException(e);
