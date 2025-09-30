@@ -1,6 +1,6 @@
 package ddalkak.prize.repository.outbox.impl;
 
-import ddalkak.prize.domain.entity.PrizeOutbox;
+import ddalkak.prize.domain.entity.Outbox;
 import ddalkak.prize.repository.outbox.OutboxJpaRepository;
 import ddalkak.prize.repository.outbox.OutboxRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +14,15 @@ import java.util.Optional;
 public class OutboxRepositoryImpl implements OutboxRepository {
     private final OutboxJpaRepository outboxJpaRepository;
     @Override
-    public PrizeOutbox save(PrizeOutbox prizeOutbox) {
-        return outboxJpaRepository.save(prizeOutbox);
+    public Outbox save(Outbox outbox) {
+        return outboxJpaRepository.save(outbox);
     }
     @Override
-    public Optional<PrizeOutbox> findByEventId(Long eventId) {
+    public Optional<Outbox> findByEventId(Long eventId) {
         return outboxJpaRepository.findByEventId(eventId);
     }
     @Override
-    public List<PrizeOutbox> findUnpublishedEvent() {
+    public List<Outbox> findUnpublishedEvent() {
         return outboxJpaRepository.findUnpublishedEventSizeOf(100);
     }
 }
