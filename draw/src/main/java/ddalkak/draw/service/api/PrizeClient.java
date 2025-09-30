@@ -19,7 +19,8 @@ public class PrizeClient {
     private String targetAddress;
     private final WebClient webClient;
 
-    @Cacheable(value = "probability", key = "#prizeId")
+    // 임시 Deprecate
+    // @Cacheable(value = "probability", key = "#prizeId")
     public Prize fetch(final long prizeId) {
         log.info("no cached, request origin server");
         return webClient.get()
