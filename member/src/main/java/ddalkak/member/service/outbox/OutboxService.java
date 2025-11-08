@@ -2,7 +2,7 @@ package ddalkak.member.service.outbox;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ddalkak.member.domain.EventType;
+import ddalkak.member.common.enums.EventType;
 import ddalkak.member.domain.entity.Outbox;
 import ddalkak.member.dto.event.ExternalEvent;
 import ddalkak.member.dto.event.PendingEvent;

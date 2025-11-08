@@ -1,6 +1,6 @@
 package ddalkak.member.domain.entity;
 
-import ddalkak.member.domain.MemberType;
+import ddalkak.member.common.enums.MemberType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

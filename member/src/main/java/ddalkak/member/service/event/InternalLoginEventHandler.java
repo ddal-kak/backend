@@ -1,6 +1,6 @@
 package ddalkak.member.service.event;
 
-import ddalkak.member.domain.EventType;
+import ddalkak.member.common.enums.EventType;
 import ddalkak.member.dto.event.ExternalEvent;
 import ddalkak.member.dto.event.InternalLoginEvent;
 import ddalkak.member.service.outbox.OutboxService;

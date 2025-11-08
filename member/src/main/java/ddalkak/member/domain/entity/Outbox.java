@@ -1,7 +1,7 @@
 package ddalkak.member.domain.entity;
 
-import ddalkak.member.domain.EventStatus;
-import ddalkak.member.domain.EventType;
+import ddalkak.member.common.enums.EventStatus;
+import ddalkak.member.common.enums.EventType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

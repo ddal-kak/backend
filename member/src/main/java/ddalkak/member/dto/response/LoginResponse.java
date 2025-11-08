@@ -1,6 +1,6 @@
 package ddalkak.member.dto.response;
 
-import ddalkak.member.domain.MemberType;
+import ddalkak.member.common.enums.MemberType;
 import ddalkak.member.domain.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;

@@ -1,11 +1,10 @@
 package ddalkak.member.controller;
 
-import ddalkak.member.domain.JwtConstants;
+import ddalkak.member.common.enums.JwtConstants;
 import ddalkak.member.dto.jwt.Jwt;
 import ddalkak.member.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.server.Cookie;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -13,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Duration;
-
-import static ddalkak.member.domain.JwtConstants.*;
+import static ddalkak.member.common.enums.JwtConstants.*;
 
 @RestController
 @RequestMapping("/api/auth")

@@ -1,4 +1,4 @@
-package ddalkak.member.domain;
+package ddalkak.member.common.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

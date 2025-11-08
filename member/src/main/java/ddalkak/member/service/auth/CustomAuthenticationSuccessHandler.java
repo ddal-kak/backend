@@ -2,7 +2,7 @@ package ddalkak.member.service.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ddalkak.member.domain.CustomUserDetails;
-import ddalkak.member.domain.JwtConstants;
+import ddalkak.member.common.enums.JwtConstants;
 import ddalkak.member.domain.entity.Member;
 import ddalkak.member.dto.event.InternalLoginEvent;
 import ddalkak.member.dto.jwt.Jwt;
@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.server.Cookie;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -28,7 +27,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import java.io.IOException;
 
-import static ddalkak.member.domain.JwtConstants.*;
+import static ddalkak.member.common.enums.JwtConstants.*;
 
 @RequiredArgsConstructor
 @Component

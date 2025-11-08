@@ -1,10 +1,7 @@
 package ddalkak.member.repository.outbox;
 
-import ddalkak.member.domain.EventStatus;
 import ddalkak.member.domain.entity.Outbox;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
