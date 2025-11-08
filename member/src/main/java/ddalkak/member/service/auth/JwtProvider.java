@@ -18,8 +18,11 @@ import java.util.Date;
 @Slf4j
 public class JwtProvider {
     private final PrivateKey privateKey;
-    public static final long ONE_HOUR = 1000L * 60 * 60;
-    public static final long TWO_WEEKS = 1000L * 60 * 60 * 24 * 14;
+    private static final long ONE_HOUR = 1000L * 60 * 60;
+    private static final long TWO_WEEKS = 1000L * 60 * 60 * 24 * 14;
+    private static final String NAME = "name";
+    private static final String ROLES = "roles";
+    private static final String GRANT_TYPE = "Bearer";
 
     public JwtProvider(@Value("${jwt.private_key}") String encodedPrivateKey) throws Exception {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -33,8 +36,8 @@ public class JwtProvider {
         long now = (new Date()).getTime();
         String accessToken = Jwts.builder()
                 .setSubject(String.valueOf(claims.memberId()))
-                .claim("name", claims.name())
-                .claim("roles", claims.roles())
+                .claim(NAME, claims.name())
+                .claim(ROLES, claims.roles())
                 .setExpiration(new Date(now + ONE_HOUR))
                 .signWith(privateKey, SignatureAlgorithm.RS256)
                 .compact();
@@ -43,7 +46,7 @@ public class JwtProvider {
                 .signWith(privateKey, SignatureAlgorithm.RS256)
                 .compact();
         return Jwt.builder()
-                .grantType("Bearer")
+                .grantType(GRANT_TYPE)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
