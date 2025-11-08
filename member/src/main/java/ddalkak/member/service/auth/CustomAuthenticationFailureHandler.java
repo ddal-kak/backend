@@ -5,6 +5,7 @@ import ddalkak.member.common.exception.TxFailureException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
     private final ObjectMapper objectMapper;
 
@@ -35,7 +37,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         try {
             objectMapper.writeValue(response.getWriter(), ex.getMessage());
         } catch (IOException e) {
-            throw new IllegalStateException("body를 작성할 수 없습니다.");
+            log.error("인증 실패 응답 작성 중 I/O 오류 발생", e);
         }
     }
 
@@ -46,9 +48,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         try {
             objectMapper.writeValue(response.getWriter(), ex.getMessage());
         } catch (IOException e) {
-            throw new IllegalStateException("body를 작성할 수 없습니다.");
+            log.error("인증 실패 응답 작성 중 I/O 오류 발생", e);
         }
     }
-
-
 }

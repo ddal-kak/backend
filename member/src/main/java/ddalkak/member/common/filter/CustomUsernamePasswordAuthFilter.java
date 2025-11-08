@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -44,11 +45,10 @@ public class CustomUsernamePasswordAuthFilter extends UsernamePasswordAuthentica
         try {
             super.successfulAuthentication(request, response, chain, authResult);
         } catch (Exception e) {
-            getFailureHandler().onAuthenticationFailure(
+            super.unsuccessfulAuthentication(
                     request,
                     response,
-                    new TxFailureException("로그인 처리 중 오류가 발생했습니다.", e)
-            );
+                    new TxFailureException("로그인 처리 중 오류가 발생했습니다.", e));
         }
     }
 
@@ -59,7 +59,7 @@ public class CustomUsernamePasswordAuthFilter extends UsernamePasswordAuthentica
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password());
             return getAuthenticationManager().authenticate(authenticationToken);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new AuthenticationServiceException("로그인 request 파싱 중 오류가 발생했습니다.", e);
         }
     }
 }

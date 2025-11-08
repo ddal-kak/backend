@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -82,7 +83,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         try {
             objectMapper.writeValue(response.getWriter(), LoginResponse.from(loginMember));
         } catch (IOException e) {
-            throw new IllegalStateException("body를 작성할 수 없습니다.");
+            throw new AuthenticationServiceException("로그인 response 작성 중 오류가 발생했습니다.", e);
         }
     }
 
