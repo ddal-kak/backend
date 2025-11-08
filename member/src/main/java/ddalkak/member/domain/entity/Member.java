@@ -14,13 +14,16 @@ import java.util.List;
 public class Member extends BaseEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
+
     @Column(unique = true)
     private String email;
+
     private String password;
+
     private String name;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @Builder.Default
     private List<MemberType> roles = new ArrayList<>();
 
     public Member() {
