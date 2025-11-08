@@ -9,15 +9,20 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class Outbox extends BaseEntity{
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Outbox extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "outbox_id")
     private Long id;
+
     private Long eventId;
+
     @Enumerated(EnumType.STRING)
     private EventStatus status;
+
     @Enumerated(EnumType.STRING)
     private EventType type;
+
     @Column(columnDefinition = "JSON")
     private String payload;
 
