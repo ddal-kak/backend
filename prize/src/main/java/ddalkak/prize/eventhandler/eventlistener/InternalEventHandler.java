@@ -26,7 +26,8 @@ public class InternalEventHandler {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void publishEvent(InternalDecreaseResultEvent event) {
         log.info("after phase 진입");
-        eventPublisher.publish(EventType.DECREASE_RESULT.getTopic(), event.externalEvent(), event.ack());
+        eventPublisher.publish(EventType.DECREASE_RESULT.getTopic(), event.externalEvent());
+
     }
 
 }
