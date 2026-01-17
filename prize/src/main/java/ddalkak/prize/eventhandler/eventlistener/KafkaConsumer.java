@@ -20,9 +20,8 @@ public class KafkaConsumer {
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void onMessage(DrawWinEvent event, Acknowledgment ack) {
-          eventHandler.handleDecreaseStockEvent(event,ack);
-
-
+          eventHandler.handleDecreaseStockEvent(event);
+          ack.acknowledge();
     }
 
 }

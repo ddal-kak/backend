@@ -34,18 +34,18 @@ public class KafkaEventHandler implements EventHandler {
     @Override
     @EnableIdempotent(eventId = "#event.eventId()")
     @Transactional
-    public void handleDecreaseStockEvent(DrawWinEvent event, Acknowledgment ack) {
+    public void handleDecreaseStockEvent(DrawWinEvent event) {
         log.info("Received event: eventId= {}, prizeId= {}", event.eventId(), event.prizeId());
         // 상품 재고 감소 처리
         try {
             prizeService.decreaseStock(event.prizeId());
             // Outbox에 이벤트 저장
-            InternalEvent internalEvent = new InternalDecreaseResultEvent(DecreaseResultEvent.of(event, DecreaseResult.SUCCESS), ack);
+            InternalEvent internalEvent = new InternalDecreaseResultEvent(DecreaseResultEvent.of(event, DecreaseResult.SUCCESS));
             applicationEventPublisher.publishEvent(internalEvent);
             log.info(String.valueOf(Instant.now()));
         } catch (OutOfStockException e) {
             log.warn("Failed to decrease stock for eventId= {}, prizeId= {}", event.eventId(), event.prizeId());
-            InternalEvent internalEvent = new InternalDecreaseResultEvent(DecreaseResultEvent.of(event, DecreaseResult.FAILURE), ack);
+            InternalEvent internalEvent = new InternalDecreaseResultEvent(DecreaseResultEvent.of(event, DecreaseResult.FAILURE));
             applicationEventPublisher.publishEvent(internalEvent);
         }
     }
